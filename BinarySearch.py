@@ -1,5 +1,5 @@
 from doubly_linked_list import DoublyCircularLinkedList
-from singly_linked_list import SinglyCircularLinkedList
+from circular_linked_list import SinglyCircularLinkedList
 
 
 # noinspection PyUnreachableCode

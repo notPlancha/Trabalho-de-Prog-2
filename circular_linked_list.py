@@ -42,27 +42,6 @@ class CircularLinkedList(LinkedList): # noqa
             prev = i
         return False
 
-    def ordenar(self, mode = ""):
-        # TODO test pls
-        if self.size == 0:
-            return
-        if mode == "i":
-            current_node = self.head
-            for i in range(self.size):
-                for j in range(self.size - 1):
-                    if current_node.data > current_node.next.data:
-                        current_node.data, current_node.next.data = current_node.next.data, current_node.data
-                    current_node = current_node.next
-                current_node = self.head
-            self.tail = current_node
-            assert self.tail.next == self.head
-            self.tail.next = self.head
-        if mode == "b":
-            for j in range(self.len - 1):
-                for i in range(self.len -1):
-                    if self[i] > self[i+1]:
-                        self[i], self[i+1] = self[i+1], self[i]
-
 
 if __name__ == "__main__":
     # tests TODO

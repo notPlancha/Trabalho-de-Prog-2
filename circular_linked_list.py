@@ -55,6 +55,13 @@ class CircularLinkedList(LinkedList): # noqa
         assert self.tail.next == self.head
         self.tail.next = self.head
 
+    def insertionSort(self):
+        for i in range(1, self.size):
+            aux = self.head.move_n_times_rigth(i)
+            j = i - 1
+            while j >= 0 and self[j] > aux:
+                self.head.move_n_times_rigth(j + 1) = self.head.move_n_times_rigth(j)
+                j = j - 1
 
 if __name__ == "__main__":
     # tests TODO

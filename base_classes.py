@@ -28,6 +28,10 @@ class LinkedNode:
         else:
             return f"{self.value} ->"
 
+    def insertNext(self, value):
+        #TODO test ty
+        self.next = LinkedNode(value, self.next)
+        return self.next
 
 class LinkedList:
     def __init__(self, head=None):

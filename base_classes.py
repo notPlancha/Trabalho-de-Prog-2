@@ -3,6 +3,11 @@ from typing import Literal
 
 
 class LinkedNode:
+
+    @staticmethod
+    def swap(node1, node2):
+        node1.value, node2.value = node2.value, node1.value
+
     def __init__(self, value, next=None):
         self.value = value
         self.next: LinkedNode | None = next

@@ -56,6 +56,7 @@ class CircularLinkedList(LinkedList): # noqa
         self.tail.next = self.head
 
     def insertionSort(self):
+        raise notImplementedError() # TODO current implementation will never work
         for i in range(1, self.size):
             aux = self.head.move_n_times_rigth(i)
             j = i - 1

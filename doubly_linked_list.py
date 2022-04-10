@@ -29,33 +29,16 @@ class DoublyLinkedNode(LinkedNode):
             h = h + "<->"
         return h
 
-    def move_link_left(self):
-        # TODO test ty
-        # a <-> b <-> c <-> d to a <-> c <-> b <-> d ( c being current node )
-        a = self.prev.prev
-        b = self.prev
-        c = self
-        d = self.next
-        if a is not None: a.next = c
-        b.prev = c
-        b.next = d
-        c.prev = a
-        c.next = b
-        if d is not None: d.prev = b
-
     def move_link_right(self):
-        # TODO test ty
-        # a <-> b <-> c <-> d to a <-> c <-> b <-> d ( b being current node )
-        a = self.prev
-        b = self
-        c = self.next
-        d = self.next.next
-        if a is not None: a.next = c
-        c.prev = a
-        c.next = b
-        b.prev = c
-        b.next = d
-        if d is not None: d.prev = b
+        if self.next is None:
+            raise DoublyLinkedNode.NoNext("Index out of range")
+        DoublyLinkedNode.swap(self, self.next)
+
+    def move_link_left(self):
+        if self.prev is None:
+            raise DoublyLinkedNode.NoPrev("Index out of range")
+        DoublyLinkedNode.swap(self, self.prev)
+
     def insertNext(self, value):
         # TODO test ty
         nod = DoublyLinkedNode(value, next=self.next, prev=self)
@@ -63,6 +46,7 @@ class DoublyLinkedNode(LinkedNode):
             nod.next.prev = nod
         self.next = nod
         return nod
+
     def insertPrev(self, value):
         # TODO test ty
         nod = DoublyLinkedNode(value, next=self, prev=self.prev)
@@ -71,7 +55,8 @@ class DoublyLinkedNode(LinkedNode):
         self.prev = nod
         return nod
 
-class DoublyLinkedList(LinkedList): # noqa
+
+class DoublyLinkedList(LinkedList):  # noqa
     def __init__(self, head=None, tail=None):
         super().__init__(head)
         self.tail: DoublyLinkedNode | None = tail
@@ -126,9 +111,12 @@ class DoublyLinkedList(LinkedList): # noqa
             return
         current_node = self.head
         while current_node is not None:
-
-
-
+            while current_node.prev is not None:
+                if current_node.value < current_node.prev.value:
+                    current_node.move_link_left()
+                else:
+                    break
+            current_node = current_node.next
 
 
 if __name__ == "__main__":

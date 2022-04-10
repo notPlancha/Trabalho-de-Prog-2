@@ -42,6 +42,19 @@ class CircularLinkedList(LinkedList): # noqa
             prev = i
         return False
 
+    def bubbleSort(self):
+        #TODO test pls
+        current_node = self.head
+        for i in range(self.size):
+            for j in range(self.size - 1):
+                if current_node.data > current_node.next.data:
+                    current_node.data, current_node.next.data = current_node.next.data, current_node.data
+                current_node = current_node.next
+            current_node = self.head
+        self.tail = current_node
+        assert self.tail.next == self.head
+        self.tail.next = self.head
+
 
 if __name__ == "__main__":
     # tests TODO

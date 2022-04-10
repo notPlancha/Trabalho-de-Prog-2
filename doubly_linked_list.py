@@ -12,10 +12,9 @@ class DoublyLinkedNode(LinkedNode):
     def move_n_times_left(self, n):
         current_node = self
         for i in range(n):
-            if type(current_node) is DoublyLinkedNode:
-                current_node = current_node.prev
-            else:
+            if current_node.prev is None:
                 raise DoublyLinkedNode.NoPrev("Index out of range")
+            current_node = current_node.prev
         return current_node
 
     class NoPrev(IndexError):
@@ -55,6 +54,15 @@ class DoublyLinkedNode(LinkedNode):
         self.prev = nod
         return nod
 
+    def popLink(self):
+        self.prev = self.next
+
+    def getAllLeft(self):
+        left = self.prev
+        while left is not None:
+            yield left
+            left = left.prev
+
 
 class DoublyLinkedList(LinkedList):  # noqa
     def __init__(self, head=None, tail=None):
@@ -73,15 +81,25 @@ class DoublyLinkedList(LinkedList):  # noqa
     def __str__(self):
         return " <-> ".join([str(node) for node in self])
 
-    # append to the list
-    def ins(self, item):
+    def append(self, value):
         if self.size == 0:
-            self.head = DoublyLinkedNode(item)
+            self.head = DoublyLinkedNode(value)
             self.tail = self.head
         else:
-            self.tail.next = DoublyLinkedNode(item, prev=self.tail)
+            self.tail.next = DoublyLinkedNode(value, prev=self.tail)
             self.tail = self.tail.next
         self.size += 1
+
+    def prepend(self, value):
+        if self.size == 0:
+            self.head = DoublyLinkedNode(value)
+            self.tail = self.head
+        else:
+            self.head = DoublyLinkedNode(value, next=self.head)
+            self.head.prev = self.head
+
+    def ins(self, item):
+        return self.append(item)
 
     def removeNode(self, node: LinkedNode):
         node.prev = node.next
@@ -107,16 +125,38 @@ class DoublyLinkedList(LinkedList):  # noqa
         return self.removeFirst(value)
 
     def insertionSort(self):
-        if self.size == 0:
+        #TODO test this ty
+        listLen = len(self)
+        if listLen in [0, 1]:
             return
-        current_node = self.head
-        while current_node is not None:
-            while current_node.prev is not None:
-                if current_node.value < current_node.prev.value:
-                    current_node.move_link_left()
-                else:
-                    break
-            current_node = current_node.next
+        for current_node in self:
+            if current_node.value > current_node.next.value:
+                nodePopped: DoublyLinkedNode = current_node.next
+                valueOfPoppedNode = nodePopped.value
+                nodePopped.popLink()
+                del nodePopped
+                nodeWithValueLessThanPopped: DoublyLinkedNode | None = None
+                for nodeLeftToPopped in current_node.getAllLeft():
+                    if nodeLeftToPopped.value < valueOfPoppedNode:
+                        nodeWithValueLessThanPopped = nodeLeftToPopped
+                        break
+                if nodeWithValueLessThanPopped is None:
+                    self.prepend(valueOfPoppedNode)
+                nodeWithValueLessThanPopped.insertNext(valueOfPoppedNode)
+        self.tail = current_node #will always exist because listLen can't be 0
+    def bubbleSort(self):
+        # TODO test it ty
+        is_sorted = False
+        lastOrdered = None
+        while not is_sorted:
+            is_sorted = True
+            current_node = self.head
+            while current_node.next is not None or current_node.next != lastOrdered:
+                if current_node.value > current_node.next.value:
+                    DoublyLinkedNode.swap(current_node, current_node.next)
+                    is_sorted = False
+                    lastOrdered = current_node.next.value
+                current_node = current_node.next
 
 
 if __name__ == "__main__":

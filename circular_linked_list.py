@@ -31,7 +31,7 @@ class CircularLinkedList(LinkedList): # noqa
     def RemoveFirst(self, item):
         prev = None
         for i in self:
-            if i.data == item:
+            if i.value == item:
                 if prev is None:
                     # data is in head
                     self.head = self.head.next
@@ -43,17 +43,8 @@ class CircularLinkedList(LinkedList): # noqa
         return False
 
     def bubbleSort(self):
-        #TODO test pls
-        current_node = self.head
-        for i in range(self.size):
-            for j in range(self.size - 1):
-                if current_node.data > current_node.next.data:
-                    current_node.data, current_node.next.data = current_node.next.data, current_node.data
-                current_node = current_node.next
-            current_node = self.head
-        self.tail = current_node
-        assert self.tail.next == self.head
-        self.tail.next = self.head
+        pass
+
 
     def insertionSort(self):
         raise notImplementedError() # TODO current implementation will never work

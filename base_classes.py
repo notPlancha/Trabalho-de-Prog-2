@@ -15,13 +15,17 @@ class LinkedNode:
     class NoNext(IndexError):
         pass
 
+    def __eq__(self, other):
+        if other is None: return False
+        elif isinstance(other, LinkedNode): return self.value == other.value
+        else: return self.value == other
+
     def move_n_times_right(self, n):
         current_node = self
         for i in range(n):
-            if type(current_node) is LinkedNode:
-                current_node = current_node.next
-            else:
+            if current_node.next is None:
                 raise LinkedNode.NoNext("Index out of range")
+            current_node = current_node.next
         return current_node
 
     def __str__(self):

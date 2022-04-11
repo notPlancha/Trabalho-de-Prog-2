@@ -45,7 +45,8 @@ class CircularLinkedList(LinkedList): # noqa
     def bubbleSort(self):
         pass
 
-    def exist(self, item):
+    def binarySearch(self, item):
+        #TODO
         listlen = (len(self)//2)
         for i in range(listlen, len(self)):
             m = self.head.move_n_times_rigth(self, listlen)
@@ -63,7 +64,7 @@ class CircularLinkedList(LinkedList): # noqa
 
 
     def insertionSort(self):
-        raise notImplementedError() # TODO current implementation will never work
+        # TODO current implementation will never work
         for i in range(1, self.size):
             aux = self.head.move_n_times_rigth(i)
             j = i - 1

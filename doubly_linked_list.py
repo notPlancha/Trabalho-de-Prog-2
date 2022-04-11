@@ -124,7 +124,8 @@ class DoublyLinkedList(LinkedList):  # noqa
     def rem(self, value):
         return self.removeFirst(value)
 
-    def exist(self, item):
+    def binarySearch(self, item):
+        #TODO
         listlen = (len(self)//2)
         for i in range(listlen, len(self)):
             m = self.head.move_n_times_rigth(self, listlen)

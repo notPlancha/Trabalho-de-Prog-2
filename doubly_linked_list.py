@@ -124,6 +124,18 @@ class DoublyLinkedList(LinkedList):  # noqa
     def rem(self, value):
         return self.removeFirst(value)
 
+    def exist(self, item):
+        listlen = (len(self)//2)
+        for i in range(listlen, len(self)):
+            m = self.head.move_n_times_rigth(self, listlen)
+            if m.value == item:
+                return index(m)
+            if m.value < item:
+                m = self[index(m) + m//2]
+            if item < m.value:
+                m = self[index(m)//2]
+            return 0
+
     def insertionSort(self):
         #TODO test this ty
         listLen = len(self)

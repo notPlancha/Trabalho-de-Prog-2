@@ -125,20 +125,20 @@ class DoublyLinkedList(LinkedList):  # noqa
         return self.removeFirst(value)
 
     def binarySearch(self, item):
-        #TODO
-        listlen = (len(self)//2)
+        # TODO
+        listlen = (len(self) // 2)
         for i in range(listlen, len(self)):
             m = self.head.move_n_times_rigth(self, listlen)
             if m.value == item:
                 return index(m)
             if m.value < item:
-                m = self[index(m) + m//2]
+                m = self[index(m) + m // 2]
             if item < m.value:
-                m = self[index(m)//2]
+                m = self[index(m) // 2]
             return 0
 
     def insertionSort(self):
-        #TODO test this ty
+        # TODO test this ty
         listLen = len(self)
         if listLen in [0, 1]:
             return
@@ -156,7 +156,8 @@ class DoublyLinkedList(LinkedList):  # noqa
                 if nodeWithValueLessThanPopped is None:
                     self.prepend(valueOfPoppedNode)
                 nodeWithValueLessThanPopped.insertNext(valueOfPoppedNode)
-        self.tail = current_node #will always exist because listLen can't be 0
+        self.tail = current_node  # will always exist because listLen can't be 0
+
     def bubbleSort(self):
         # TODO test it ty
         is_sorted = False

@@ -1,20 +1,18 @@
-from typing import Literal
+import warnings
+from typing import Literal, Tuple
 
 from base_classes import LinkedNode, LinkedList
 
 
 # TODO: I really don't know how to implement Nota 2
 
-class CircularLinkedList(LinkedList): # noqa
-    def __init__(self, head=None, tail=None):
-        super().__init__(head)
-        self.tail: LinkedNode | None = tail
-
+class CircularLinkedList(LinkedList):  # noqa
     def __str__(self):
         return super().__str__() + " -> " + str(self.head) + "-> ..."
 
-    def ordenar(self, which: Literal['m', 'q', 'i', 'b'] = "m"): #TODO mudar para o mais efetivo
+    def ordenar(self, which: Literal['m', 'q', 'i', 'b'] = "m"):  # TODO mudar para o mais efetivo
         return super().ordenar(which)
+
     # append to the list
     def ins(self, item):
         if self.size == 0:
@@ -46,22 +44,42 @@ class CircularLinkedList(LinkedList): # noqa
         return False
 
     def bubbleSort(self):
+        #TODO is's fine to port ?
         pass
 
-    def binarySearch(self, item):
-        #TODO
-        listlen = (len(self)//2)
+    def binarySearch(self, item, order=False) -> Tuple[LinkedNode | None, int]:  # TODO change to True default
+        # TODO test it ty
+        if order:
+            self.ordenar()
+        start = (self.head, 0)
+        end = (self.tail, self.size - 1)
+        while end[0] != start[0] or end[0] is None or start[0] is None:  # not sure of this line
+            mid = self.findMiddle(start, end)
+            if mid[0].value == item:
+                return mid
+            elif mid[0].value > item:
+                start = (mid[0].next, mid[1] + 1)
+            else:
+                end = mid
+        return None, -1
+
+    def binarySearchOld(self, item):
+        #TODO remove it ?
+        warnings.warn("use binarySearch Instead", DeprecationWarning)
+        listlen = (len(self) // 2)
         for i in range(listlen, len(self)):
             m = self.head.move_n_times_rigth(self, listlen)
             if m.value == item:
                 return index(m)
             if m.value < item:
-                m = self[index(m) + m//2]
+                m = self[index(m) + m // 2]
             if item < m.value:
-                m = self[index(m)//2]
+                m = self[index(m) // 2]
             return 0
 
+    # noinspection PyUnreachableCode
     def insertionSort(self):
+        raise NotImplementedError()
         # TODO current implementation will never work
         """
         for i in range(1, self.size):
@@ -71,6 +89,8 @@ class CircularLinkedList(LinkedList): # noqa
                 self.head.move_n_times_rigth(j + 1) = self.head.move_n_times_rigth(j)
                 j = j - 1
         """
+
+
 if __name__ == "__main__":
     # tests TODO
     node1 = LinkedNode(7)

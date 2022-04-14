@@ -1,5 +1,5 @@
 # base classes of linked lists should not have remove and insert methods (and binary search)
-from typing import Literal
+from typing import Literal, Tuple
 
 
 class LinkedNode:
@@ -10,7 +10,7 @@ class LinkedNode:
 
     def __init__(self, value, next=None):
         self.value = value
-        self.next: LinkedNode | None= next
+        self.next: LinkedNode | None = next
 
     class NoNext(IndexError):
         pass
@@ -43,16 +43,21 @@ class LinkedNode:
         self.next = LinkedNode(value, self.next)
         return self.next
 
+
 class LinkedList:
-    def __init__(self, head=None):
-        self.head = head
+    def __init__(self):
+        self.head = None
+        self.tail = None
         self.size = 0
 
     def __iter__(self) -> LinkedNode:
+        if self.size <= 1:
+            return iter([self.head])
         current_node = self.head
-        while current_node is not None:
+        while current_node is not self.tail or current_node is not None:
             yield current_node
             current_node = current_node.next
+        yield self.tail
 
     def __getitem__(self, p):
         if p >= self.size or p < 0:
@@ -129,3 +134,16 @@ class LinkedList:
 
     def existe(self, value) -> int:
         return self.indexOf(value) + 1
+
+    def findMiddle(self, startPoint: Tuple[LinkedNode, int] = None,
+                   endPoint: Tuple[LinkedNode, int] = None) -> Tuple[LinkedNode, int]:
+        # TODO test
+        # if range count is even then there are 2 middle nodes, this gets the first one
+        if startPoint is None: startPoint = (self.head, 0)
+        if endPoint is None: endPoint = (self.tail, self.size - 1)
+        count = startPoint[1] - endPoint[1]
+        if count % 2 == 0:
+            # Test this specifically too
+            return startPoint[0].move_n_times_right(count // 2 - 1), (count // 2 - 1) + startPoint[1]
+        else:
+            return startPoint[0].move_n_times_right(count // 2), (count // 2) + startPoint[1]  # TODO check

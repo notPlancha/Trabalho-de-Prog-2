@@ -68,10 +68,6 @@ class DoublyLinkedNode(LinkedNode):
         if C is not None: C.prev = A
 
 class DoublyLinkedList(LinkedList):  # noqa
-    def __init__(self, head=None, tail=None):
-        super().__init__(head)
-        self.tail: DoublyLinkedNode | None = tail
-
     def __getitem__(self, p):
         if p > 0:
             return super().__getitem__(p)
@@ -104,11 +100,14 @@ class DoublyLinkedList(LinkedList):  # noqa
     def ins(self, item):
         return self.append(item)
 
+    def first(self, value) -> DoublyLinkedNode | None:
+        return super().first(value)
+
     # true if it found one
     def removeFirst(self, value) -> bool:
         NodeOfValue = self.first(value)
         if NodeOfValue is not None:
-            self.removeNode(NodeOfValue)
+            NodeOfValue.disconect()
             self.size -= 1
             return True
         else:
@@ -123,37 +122,28 @@ class DoublyLinkedList(LinkedList):  # noqa
     def rem(self, value):
         return self.removeFirst(value)
 
-    def findMiddle(self, startPoint : Tuple[DoublyLinkedNode, int] = None, endPoint : Tuple[DoublyLinkedNode, int] = None)-> Tuple[DoublyLinkedNode, int]:
-        #TODO test
-        #if range count is even then there are 2 middle nodes, this gets the first one
-        if startPoint is None: startPoint = (self.head, 0)
-        if endPoint is None: endPoint = (self.tail, self.size - 1)
-        count = startPoint[1]-endPoint[1]
-        if count % 2 == 0:
-            #Test this specifically too
-            return startPoint[0].move_n_times_right(count // 2 - 1), (count // 2 - 1) + startPoint[1]
-        else:
-            return startPoint[0].move_n_times_right(count // 2), (count // 2) + startPoint[1] # TODO check
-
-    def binarySearch(self, item, order=False) -> Tuple[DoublyLinkedNode, int]:  # TODO change to True default
+    def binarySearch(self, item, order=False) -> Tuple[DoublyLinkedNode | None, int]:  # TODO change to True default
+        #TODO test it ty
         if order:
             self.ordenar()
         start = (self.head, 0)
         end = (self.tail, self.size-1)
-        mid = self.findMiddle(start, end)
-        if mid[0].value == item:
-            return mid
-        elif mid[0].value > item:
-            start = (mid[0].next, mid[1] + 1)
-        else:
-            end = (mid[0].prev, mid[1] - 1)
-        #todo
+        while end[0] != start[0] or end[0] is None or start[0] is None: #not sure of this line
+            mid = self.findMiddle(start, end)
+            if mid[0].value == item:
+                return mid
+            elif mid[0].value > item:
+                start = (mid[0].next, mid[1] + 1)
+            else:
+                end = (mid[0].prev, mid[1] - 1)
+        return None, -1
 
     def insertionSort(self):
         # TODO test this ty
         listLen = len(self)
         if listLen in [0, 1]:
             return
+        current_node = None
         for current_node in self:
             if current_node.value > current_node.next.value:
                 nodePopped: DoublyLinkedNode = current_node.next

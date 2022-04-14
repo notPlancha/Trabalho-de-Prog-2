@@ -189,27 +189,97 @@ class DoublyLinkedList(LinkedList):  # noqa
 
 
 if __name__ == "__main__":
-    # tests TODO
-    dll1 = DoublyLinkedList()
-
-    def appendtest():
-        lista_norm = [1,2,3,4]
-        lista_comp = []
-        for element_norm in lista_norm:
-            dll1.append(element_norm)
-
-        for node in dll1:
-            lista_comp.append(node.value)
-        return lista_comp == lista_norm
-
-def lentest
-
-    test = {'len': ,'ins()': appendtest()}
-
-    for i in test:
-        print(f'{i} --> {test[i]}')
-
-    print(dll1)
     pass
+
+# tests TODO
+dll1 = DoublyLinkedList()
+lista_norm = [1, 2, 3, 4]# any possible list
+valor = 3# value
+indice = 2# index (begins on 0)
+# test functions
+def appendtest(lista_normal):
+    lista_comp = []
+    global app_test_result
+    app_test_result = False
+
+    for element_norm in lista_normal:
+        dll1.append(element_norm)
+
+    for node in dll1:
+        lista_comp.append(node.value)
+
+    if lista_comp == lista_normal:
+        app_test_result = True
+
+    return app_test_result
+
+#se a lista ligada é igual à normal em conteúdo
+def lentest():
+    if app_test_result:
+        return len(lista_norm) == dll1.len() == len(dll1)
+    return False
+
+def mostrartest():
+    if not app_test_result:# it is essencial to guarantee that the linked list is equal to the test python list
+        # we are comparing it to
+        return False
+
+    lst1 = ' <-> '.join([str(element_norm) for element_norm in lista_norm])
+    lst2 = dll1.__str__()
+    return lst1 == lst2
+
+#this function searches for a certain value. It returns 0 if the value is not on the linked list,
+#otherwise it will return the position of the first element of the linkedlist that equals the given value
+def existetest(vlr):
+    if not app_test_result:
+        return False
+
+    lst_string = ''
+    for elemento in lista_norm:
+        lst_string += str(elemento)
+
+    return lst_string.find(str(vlr)) + 1 == dll1.existe(vlr)
+
+def vertest(ind):
+    if not app_test_result:
+        return False
+
+    if ind >= len(lista_norm) or ind < 0:
+        raise IndexError("Índice inválido")
+
+    return lista_norm[ind] == dll1.ver(ind)
+
+#def remtest(vlr):
+    #lista_comp2 = []
+
+    #if not app_test_result:
+        #return False
+
+    #dll1.rem(vlr)
+    #for node in dll1:
+        #lista_comp2.append(node.value)
+
+    #return lista_norm.remove(vlr) == lista_comp2
+
+def limpartest():
+    lista_norm = []
+    dll1.limpar()
+    return len(lista_norm) == dll1.len() == len(dll1) == 0
+
+def vaziatest():
+    if limpartest():
+        return True
+    return False
+
+
+
+
+
+test = {'ins(item)': appendtest(lista_norm), 'len()': lentest(), 'mostrar()': mostrartest(),
+        'existe(item)': existetest(valor), 'ver(p)': vertest(indice), 'ordenar()': '?', 'rem(item)': '?'
+    , 'limpar()': limpartest(), 'vazia()': vaziatest()}
+
+for i in test:
+    print(f'{i} --> {test[i]}')
 
 

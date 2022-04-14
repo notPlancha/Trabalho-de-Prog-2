@@ -1,9 +1,9 @@
+from typing import Literal, Tuple, List
+
 from base_classes import LinkedNode, LinkedList
 
 
 # TODO: I really don't know how to implement Nota 2
-
-# TODO: add binary search (both methods?)
 class DoublyLinkedNode(LinkedNode):
     def __init__(self, value, next=None, prev=None):
         super().__init__(value, next)
@@ -62,7 +62,10 @@ class DoublyLinkedNode(LinkedNode):
         while left is not None:
             yield left
             left = left.prev
-
+    def disconect(self):
+        A = self.prev, B = self, C = self.next
+        if A is not None: A.next = C
+        if C is not None: C.prev = A
 
 class DoublyLinkedList(LinkedList):  # noqa
     def __init__(self, head=None, tail=None):
@@ -101,10 +104,6 @@ class DoublyLinkedList(LinkedList):  # noqa
     def ins(self, item):
         return self.append(item)
 
-    def removeNode(self, node: LinkedNode):
-        node.prev = node.next
-        self.size -= 1
-
     # true if it found one
     def removeFirst(self, value) -> bool:
         NodeOfValue = self.first(value)
@@ -118,24 +117,37 @@ class DoublyLinkedList(LinkedList):  # noqa
     def removeAll(self, value):
         for i in self:
             if i.value == value:
-                self.removeNode(i)
+                i.disconnect()
                 self.size -= 1
 
     def rem(self, value):
         return self.removeFirst(value)
 
-    def binarySearch(self, item):
-        # TODO
-        listlen = (len(self) // 2)
-        for i in range(listlen, len(self)):
-            m = self.head.move_n_times_rigth(self, listlen)
-            if m.value == item:
-                return index(m)
-            if m.value < item:
-                m = self[index(m) + m // 2]
-            if item < m.value:
-                m = self[index(m) // 2]
-            return 0
+    def findMiddle(self, startPoint : Tuple[DoublyLinkedNode, int] = None, endPoint : Tuple[DoublyLinkedNode, int] = None)-> Tuple[DoublyLinkedNode, int]:
+        #TODO test
+        #if range count is even then there are 2 middle nodes, this gets the first one
+        if startPoint is None: startPoint = (self.head, 0)
+        if endPoint is None: endPoint = (self.tail, self.size - 1)
+        count = startPoint[1]-endPoint[1]
+        if count % 2 == 0:
+            #Test this specifically too
+            return startPoint[0].move_n_times_right(count // 2 - 1), (count // 2 - 1) + startPoint[1]
+        else:
+            return startPoint[0].move_n_times_right(count // 2), (count // 2) + startPoint[1] # TODO check
+
+    def binarySearch(self, item, order=False) -> Tuple[DoublyLinkedNode, int]:  # TODO change to True default
+        if order:
+            self.ordenar()
+        start = (self.head, 0)
+        end = (self.tail, self.size-1)
+        mid = self.findMiddle(start, end)
+        if mid[0].value == item:
+            return mid
+        elif mid[0].value > item:
+            start = (mid[0].next, mid[1] + 1)
+        else:
+            end = (mid[0].prev, mid[1] - 1)
+        #todo
 
     def insertionSort(self):
         # TODO test this ty
@@ -172,7 +184,32 @@ class DoublyLinkedList(LinkedList):  # noqa
                     lastOrdered = current_node.next.value
                 current_node = current_node.next
 
+    def ordenar(self, which: Literal['m', 'q', 'i', 'b'] = "m"):  # TODO mudar para o mais efetivo
+        return super().ordenar(which)
+
 
 if __name__ == "__main__":
     # tests TODO
+    dll1 = DoublyLinkedList()
+
+    def appendtest():
+        lista_norm = [1,2,3,4]
+        lista_comp = []
+        for element_norm in lista_norm:
+            dll1.append(element_norm)
+
+        for node in dll1:
+            lista_comp.append(node.value)
+        return lista_comp == lista_norm
+
+def lentest
+
+    test = {'len': ,'ins()': appendtest()}
+
+    for i in test:
+        print(f'{i} --> {test[i]}')
+
+    print(dll1)
     pass
+
+

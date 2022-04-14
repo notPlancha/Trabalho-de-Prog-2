@@ -1,9 +1,10 @@
+from typing import Literal
+
 from base_classes import LinkedNode, LinkedList
 
 
 # TODO: I really don't know how to implement Nota 2
 
-# TODO: add binary search(both methods?)
 class CircularLinkedList(LinkedList): # noqa
     def __init__(self, head=None, tail=None):
         super().__init__(head)
@@ -12,6 +13,8 @@ class CircularLinkedList(LinkedList): # noqa
     def __str__(self):
         return super().__str__() + " -> " + str(self.head) + "-> ..."
 
+    def ordenar(self, which: Literal['m', 'q', 'i', 'b'] = "m"): #TODO mudar para o mais efetivo
+        return super().ordenar(which)
     # append to the list
     def ins(self, item):
         if self.size == 0:
@@ -58,20 +61,19 @@ class CircularLinkedList(LinkedList): # noqa
                 m = self[index(m)//2]
             return 0
 
-
-
-
-
-
     def insertionSort(self):
         # TODO current implementation will never work
+        """
         for i in range(1, self.size):
             aux = self.head.move_n_times_rigth(i)
             j = i - 1
             while j >= 0 and self[j] > aux:
                 self.head.move_n_times_rigth(j + 1) = self.head.move_n_times_rigth(j)
                 j = j - 1
-
+        """
 if __name__ == "__main__":
     # tests TODO
-    pass
+    node1 = LinkedNode(7)
+    node1.insertNext(5)
+    print(node1)
+    print(node1.next)

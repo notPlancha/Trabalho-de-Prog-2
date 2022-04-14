@@ -10,7 +10,7 @@ class LinkedNode:
 
     def __init__(self, value, next=None):
         self.value = value
-        self.next: LinkedNode | None = next
+        self.next: LinkedNode | None= next
 
     class NoNext(IndexError):
         pass
@@ -21,7 +21,8 @@ class LinkedNode:
         else: return self.value == other
 
     def move_n_times_right(self, n):
-        current_node = self
+        #TODO test this and the left one ty
+        current_node : LinkedNode = self
         for i in range(n):
             if current_node.next is None:
                 raise LinkedNode.NoNext("Index out of range")

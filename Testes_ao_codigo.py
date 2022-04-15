@@ -51,11 +51,8 @@ def insTest(lista_normal):
         lista_comp_rev.append(current_node.value)
         current_node = current_node.prev
 
-    lista_comp_rev = lista_comp_rev.reverse()
-    if lista_comp == lista_normal and lista_comp_rev == lista_normal:
-        return True
-    else:
-        return False
+    lista_comp_rev.reverse()
+    return lista_comp == lista_comp_rev == lista_normal
 
 def lenTest(lista_normal):
     dll1 = fromListToDll(lista_normal)
@@ -64,8 +61,8 @@ def lenTest(lista_normal):
 def mostrarTest(lista_normal):
     dll1 = fromListToDll(lista_normal)
     lst1 = ' <-> '.join([str(element_norm) for element_norm in lista_normal])
-    lst2 = dll1.mostrar()
-    return lst1 == lst2
+    dll1.mostrar()
+    return (print(lst1) == dll1.mostrar())
 
 #this function searches for a certain value. It returns 0 if the value is not on the linked list,
 #otherwise it will return the position of the first element of the linkedlist that equals the given value
@@ -82,7 +79,7 @@ def verTest(lista_normal, indice):
     dll1 = fromListToDll(lista_normal)
 
     try:
-        value = lista_norm[indice]
+        value = lista_normal[indice]
     except IndexError:
         try:
             dll1.ver(indice)

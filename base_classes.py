@@ -54,7 +54,7 @@ class LinkedList:
         if self.size <= 1:
             return iter([self.head])
         current_node = self.head
-        while current_node is not self.tail or current_node is not None:
+        while current_node is not self.tail and current_node is not None:
             yield current_node
             current_node = current_node.next
         yield self.tail

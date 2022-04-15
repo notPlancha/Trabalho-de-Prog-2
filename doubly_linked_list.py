@@ -176,3 +176,14 @@ class DoublyLinkedList(LinkedList):  # noqa
 
     def ordenar(self, which: Literal['m', 'q', 'i', 'b'] = "m"):  # TODO mudar para o mais efetivo
         return super().ordenar(which)
+
+if __name__ == "__main__": #TODO remove this from final
+    print("Local tests")
+    dll = DoublyLinkedList()
+    dll.append(1)
+    dll.append(2)
+    dll.append(3)
+    dll.append(4)
+    dll.append(5)
+    for i in dll:
+        print(i)

@@ -195,9 +195,16 @@ def appendtest(lista_normal):
     for element_norm in lista_normal:
         dll1.append(element_norm)
 
-    for node in dll1:
-        lista_comp.append(node.value)
+    curr_node = dll1.head
+    lista_comp.append(curr_node.value)
 
+    curr_node = curr_node.next
+    lista_comp.append(curr_node.value)
+
+    curr_node = curr_node.next
+    lista_comp.append(curr_node.value)
+
+    
     if lista_comp == lista_normal:
         app_test_result = True
 
@@ -268,11 +275,11 @@ def vaziatest():
     dll1.__init__()
     return dll1.vazia()
 
-#test = {'ins(item)': appendtest(lista_norm)}, 'len()': lentest(), 'mostrar()': mostrartest(),
+test = {'ins(item)': appendtest(lista_norm), 'len()': lentest(), 'mostrar()': mostrartest()}#,
         #'existe(item)': existetest(valor), 'ver(p)': vertest(indice), 'ordenar()': '?', 'rem(item)': '?'
     #, 'limpar()': limpartest(), 'vazia()': vaziatest()}
 
-#for i in test:
-    #print(f'{i} --> {test[i]}')
+for i in test:
+    print(f'{i} --> {test[i]}')
 
 

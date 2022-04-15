@@ -196,7 +196,7 @@ def appendtest(lista_normal):
         dll1.append(element_norm)
 
     for node in dll1:
-        lista_comp.append(node.value)
+        lista_comp.append(node)
 
     if lista_comp == lista_normal:
         app_test_result = True
@@ -252,22 +252,25 @@ def vertest(ind):
     #return lista_norm.remove(vlr) == lista_comp2
 
 def limpartest():
+    if not app_test_result:
+        return False
+
+    lista_comp3 = []
     lista_norm = []
     dll1.limpar()
-    return len(lista_norm) == dll1.len() == len(dll1) == 0
+
+    for node in dll1:
+        lista_comp3.append(node.value)
+
+    return lista_norm == lista_comp3
 
 def vaziatest():
-    if limpartest():
-        return True
-    return False
+    dll1.__init__()
+    return dll1.vazia()
 
-
-
-
-
-test = {'ins(item)': appendtest(lista_norm), 'len()': lentest(), 'mostrar()': mostrartest(),
-        'existe(item)': existetest(valor), 'ver(p)': vertest(indice), 'ordenar()': '?', 'rem(item)': '?'
-    , 'limpar()': limpartest(), 'vazia()': vaziatest()}
+test = {'ins(item)': appendtest(lista_norm)}#, 'len()': lentest(), 'mostrar()': mostrartest(),
+        #'existe(item)': existetest(valor), 'ver(p)': vertest(indice), 'ordenar()': '?', 'rem(item)': '?'
+    #, 'limpar()': limpartest(), 'vazia()': vaziatest()}
 
 for i in test:
     print(f'{i} --> {test[i]}')

@@ -62,8 +62,10 @@ class DoublyLinkedNode(LinkedNode):
         while left is not None:
             yield left
             left = left.prev
-    def disconect(self):
-        A = self.prev, B = self, C = self.next
+
+    def disconect(self, B_prev_node, B_next_node):
+        A = B_prev_node
+        C = B_next_node
         if A is not None: A.next = C
         if C is not None: C.prev = A
 
@@ -105,11 +107,41 @@ class DoublyLinkedList(LinkedList):  # noqa
 
     # true if it found one
     def removeFirst(self, value) -> bool:
+        if self.first(value) is None:
+            if self.head == value:
+                return self.limpar()
+            return False
+
+        if len(self) == 0:
+            return False
+
         NodeOfValue = self.first(value)
-        if NodeOfValue is not None:
-            NodeOfValue.disconect()
+        Prev = NodeOfValue.prev
+        Next = NodeOfValue.next
+
+        if len(self) == 2:
+            if Prev is None:
+                self.head = Next
+                self.tail = self.head
+            if Next is None:
+                self.tail = Prev
+                self.head = self.tail
+
+            NodeOfValue.disconect(Prev, Next)
             self.size -= 1
-            return True
+            return
+
+        elif NodeOfValue is not None:
+            if Prev is None:
+                self.head = Next
+
+            if Next is None:
+                self.tail = Prev
+
+            NodeOfValue.disconect(Prev, Next)
+            self.size -= 1
+            return
+
         else:
             return False
 

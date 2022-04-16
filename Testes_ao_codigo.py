@@ -11,6 +11,7 @@ def fromListToDll(lista_normal) -> DoublyLinkedList:
     elif len(lista_normal) == 1:
         ret = DoublyLinkedList()
         ret.head = ret.tail = DoublyLinkedNode(lista_normal[0])
+        ret.size += 1
         return ret
     first = prev = DoublyLinkedNode(lista_normal[0])
     for i in lista_normal[1:]:
@@ -24,7 +25,7 @@ def fromListToDll(lista_normal) -> DoublyLinkedList:
     ret.size = len(lista_normal)
     return ret
 
-def fromDlltoList(dll):
+def fromDllToList(dll):
     current_node = dll.head
     ret = []
     while current_node is not None:
@@ -90,24 +91,31 @@ def verTest(lista_normal, indice):
             return False
     try:
         return value == dll1.ver(indice)
-    except:
+    except IndexError:
         return False
 
 def remTest(lista_normal, item):
     dll1 = fromListToDll(lista_normal)
-
-    lista_normal_inc = lista_normal.remove(item)
     dll1 = dll1.rem(item)
-    dll1 = fromDlltoList(dll1)
 
-    return dll1 == lista_normal_inc
+    try:
+        lista_inc = lista_normal.remove(item)
+        if dll1 == False:
+            return False
+        dll1 = fromDllToList(dll1)
+        return dll1 == lista_inc
+
+    except:
+        if dll1 == False:
+            return True
+        return False
 
 def limparTest(lista_normal):
     dll1 = fromListToDll(lista_normal)
 
     dll1.limpar()
 
-    lista_comp = fromDlltoList(dll1)
+    lista_comp = fromDllToList(dll1)
 
     return lista_comp == []
 
@@ -121,6 +129,5 @@ def vaziaTest():
 
 #for i in test:
     #print(f'{i} --> {test[i]}')
-
 
 

@@ -69,7 +69,7 @@ class DoublyLinkedNode(LinkedNode):
 
 class DoublyLinkedList(LinkedList):  # noqa
     def __getitem__(self, p):
-        if p > 0:
+        if p >= 0:
             return super().__getitem__(p)
         else:
             if -p > self.size:
@@ -157,7 +157,8 @@ class DoublyLinkedList(LinkedList):  # noqa
                         break
                 if nodeWithValueLessThanPopped is None:
                     self.prepend(valueOfPoppedNode)
-                nodeWithValueLessThanPopped.insertNext(valueOfPoppedNode)
+                else:
+                    nodeWithValueLessThanPopped.insertNext(valueOfPoppedNode)
         self.tail = current_node  # will always exist because listLen can't be 0
 
     def bubbleSort(self):
@@ -185,5 +186,6 @@ if __name__ == "__main__": #TODO remove this from final
     dll.append(3)
     dll.append(4)
     dll.append(5)
-    for i in dll:
-        print(i)
+    print(dll[-0])
+    print(dll[1])
+    print(dll[2])

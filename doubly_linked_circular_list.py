@@ -8,16 +8,18 @@ class CircularDoublyLinkedList(DoublyLinkedList):
         if callable(item):
             def ret(*args, **kwargs):
                 item(*args, **kwargs)
-                self.tail.next = self.head
-                self.head.prev = self.tail
-
+                if len(self) > 0:
+                    self.tail.next = self.head
+                    self.head.prev = self.tail
             return ret
         else:
             return item
 
     def __str__(self):
-        return super().__str__() + "<->" + self.head + "<-> ..."
+        #start breaks on console but it shoudl work on the terminal
+        return "... <-> " + str(self.tail) + " <-> " + super().__str__() + " <-> " + str(self.head) + " <-> ..."
 
 
 if __name__ == "__main__":
-    pass
+    print("Local tests")
+

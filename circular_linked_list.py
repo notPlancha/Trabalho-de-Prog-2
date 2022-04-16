@@ -13,8 +13,7 @@ class CircularLinkedList(LinkedList):  # noqa
     def ordenar(self, which: Literal['m', 'q', 'i', 'b'] = "m"):  # TODO mudar para o mais efetivo
         return super().ordenar(which)
 
-    # append to the list
-    def ins(self, item):
+    def append(self, item):
         if self.size == 0:
             self.head = LinkedNode(item)
             self.tail = self.head
@@ -24,6 +23,18 @@ class CircularLinkedList(LinkedList):  # noqa
             self.tail = self.tail.next
             self.tail.next = self.head
         self.size += 1
+
+    def prepend(self, item):
+        if self.size == 0:
+            return self.append(item)
+        else:
+            self.head.next = LinkedNode(item)
+            self.head = self.head.next
+            self.head.next = self.tail
+        self.size += 1
+
+    def ins(self, item):
+        return self.append(item)
 
     def rem(self, item):
         return self.RemoveFirst(item)
@@ -44,8 +55,18 @@ class CircularLinkedList(LinkedList):  # noqa
         return False
 
     def bubbleSort(self):
-        #TODO is's fine to port ?
-        pass
+        # TODO Test here too
+        is_sorted = False
+        lastOrdered = None
+        while not is_sorted:
+            is_sorted = True
+            current_node = self.head
+            while current_node.next is not None or current_node.next != lastOrdered:
+                if current_node.value > current_node.next.value:
+                    LinkedNode.swap(current_node, current_node.next)
+                    is_sorted = False
+                    lastOrdered = current_node.next.value
+                current_node = current_node.next
 
     def binarySearch(self, item, order=False) -> Tuple[LinkedNode | None, int]:  # TODO change to True default
         # TODO test it ty
@@ -64,7 +85,7 @@ class CircularLinkedList(LinkedList):  # noqa
         return None, -1
 
     def binarySearchOld(self, item):
-        #TODO remove it ?
+        # TODO remove it ?
         warnings.warn("use binarySearch Instead", DeprecationWarning)
         listlen = (len(self) // 2)
         for i in range(listlen, len(self)):
@@ -77,9 +98,33 @@ class CircularLinkedList(LinkedList):  # noqa
                 m = self[index(m) // 2]
             return 0
 
-    # noinspection PyUnreachableCode
     def insertionSort(self):
-        raise NotImplementedError()
+        listLen = len(self)
+        if listLen in [0, 1]:
+            return
+        current_node = None
+        prev = None
+        for current_node in self:
+            if current_node.value > current_node.next.value:
+                nodePopped: LinkedNode = current_node.next
+                valueOfPoppedNode = nodePopped.value
+                if prev is not None: prev.next = nodePopped.next
+                del nodePopped
+                nodeWithValueLessThanPopped: LinkedNode | None = None
+                for nodeLeftToPopped in current_node.getAllLeft():
+                    if nodeLeftToPopped.value < valueOfPoppedNode:
+                        nodeWithValueLessThanPopped: LinkedNode | None = nodeLeftToPopped
+                        break
+                if nodeWithValueLessThanPopped is None:
+                    self.prepend(valueOfPoppedNode)
+                else:
+                    nodeWithValueLessThanPopped.insertNext(valueOfPoppedNode)
+                prev = current_node
+        self.tail = current_node  # will always exist because listLen can't be 0
+
+    # noinspection PyUnreachableCode
+    def insertionSortOld(self):
+        raise NotImplementedError("use insertionSort instead")
         # TODO current implementation will never work
         """
         for i in range(1, self.size):

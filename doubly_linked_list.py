@@ -163,21 +163,41 @@ class DoublyLinkedList(LinkedList):  # noqa
                 end = (mid[0].prev, mid[1] - 1)
         return None, -1
 
+
     def insertionSortNew(self):
+        #se a lista for vazia ou tiver apenas um elemento nao precisa de ser ordenada
         if len(self) in [0, 1]:
             return
 
+        #iteracao aos nodes da lista atraves dos respetivos indices (do segundo ao ultimo)
         for i in range(1, len(self)):
-            val = self[i].value
+            val = self[i].value# valor do node iterado
+            Prev = self[i].prev# node anterior
+            Next = self[i].next# node seguinte
+
+            #comparamos o valor do node iterado com os valores da lista de nodes, composta pelos elementos a esquerda ao node iterado
             for PrevNodes in self[i].getAllLeft():
                 if val > PrevNodes.value:
-                    self[i].disconect(self[i].prev, self[i].next)
+                    if Prev is None:
+                        self.head = Next
+
+                    if Next is None:
+                        self.tail = Prev
+
+                    self[i].disconect(Prev, Next)
                     PrevNodes.insertNext(val)
                     break
 
                 if PrevNodes == self.head and val <= PrevNodes.value:
-                    self[i].disconect(self[i].prev, self[i].next)
+                    if Prev is None:
+                        self.head = Next
+
+                    if Next is None:
+                        self.tail = Prev
+
+                    self[i].disconect(Prev, Next)
                     self.prepend(val)
+
                     break
         return
 
@@ -213,18 +233,22 @@ class DoublyLinkedList(LinkedList):  # noqa
                     nodeWithValueLessThanPopped.insertNext(valueOfPoppedNode)
         self.tail = current_node  # will always exist because listLen can't be 0
 
-# BubbleSort by swaping node values that are adjacent to each
+# BubbleSort by swaping node values that are adjacent to each other
     def bubbleSortNew(self):
         is_sorted = True
+        #se a lista for vazia ou tiver apenas um elemento nao precisa de ser ordenada
         if len(self) in [0, 1]:
             return
 
+        #iteracao aos nodes da lista atraves dos respetivos indices (do primeiro ao penultimo)
         for i in range(len(self) - 1):
             if self[i].value > self[i + 1].value:
                 DoublyLinkedNode.move_link_right(self[i])
                 is_sorted = False
             continue
 
+        #vai se repetindo este processo ate uma situacao em que percorremos a lista e nao temos que trocar nenhuns valores em nodes adjacentes
+        #(Nesta situacao a lista esta ordenada e podemos retornar a lista tranformada por ordem crescente)
         if is_sorted:
             return
 

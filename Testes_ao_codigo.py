@@ -129,5 +129,5 @@ def vaziaTest():
 #for i in test:
     #print(f'{i} --> {test[i]}')
 
-dll = fromListToDll([3,2,1,1,54,54,7,78,9,0,9,4,4,32,2])
+dll = fromListToDll([5,4,3,2,1])
 

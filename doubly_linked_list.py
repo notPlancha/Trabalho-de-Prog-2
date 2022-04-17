@@ -54,9 +54,6 @@ class DoublyLinkedNode(LinkedNode):
         self.prev = nod
         return nod
 
-    def popLink(self):
-        self.prev = self.next
-
     def getAllLeft(self):
         left = self.prev
         while left is not None:
@@ -97,7 +94,7 @@ class DoublyLinkedList(LinkedList):  # noqa
             self.tail = self.head
         else:
             self.head = DoublyLinkedNode(value, next=self.head)
-            self.head.prev = self.head
+            self.head.next.prev = self.head
 
     def ins(self, item):
         return self.append(item)
@@ -166,18 +163,45 @@ class DoublyLinkedList(LinkedList):  # noqa
                 end = (mid[0].prev, mid[1] - 1)
         return None, -1
 
+    def insertionSortNew(self):
+        if len(self) in [0, 1]:
+            return
+
+        for i in range(1, len(self)):
+            val = self[i].value
+            for PrevNodes in self[i].getAllLeft():
+                if val > PrevNodes.value:
+                    self[i].disconect(self[i].prev, self[i].next)
+                    PrevNodes.insertNext(val)
+                    break
+
+                if PrevNodes == self.head and val <= PrevNodes.value:
+                    self[i].disconect(self[i].prev, self[i].next)
+                    self.prepend(val)
+                    break
+        return
+
+
+
+
+
+
+
+
+
+
+
+
+
     def insertionSort(self):
         # TODO test this ty
-        listLen = len(self)
-        if listLen in [0, 1]:
+        if len(self) in [0, 1]:
             return
-        current_node = None
         for current_node in self:
             if current_node.value > current_node.next.value:
                 nodePopped: DoublyLinkedNode = current_node.next
                 valueOfPoppedNode = nodePopped.value
-                nodePopped.popLink()
-                del nodePopped
+                nodePopped.disconect(nodePopped.prev, nodePopped.next)
                 nodeWithValueLessThanPopped: DoublyLinkedNode | None = None
                 for nodeLeftToPopped in current_node.getAllLeft():
                     if nodeLeftToPopped.value < valueOfPoppedNode:
@@ -192,10 +216,12 @@ class DoublyLinkedList(LinkedList):  # noqa
 # BubbleSort by swaping node values that are adjacent to each
     def bubbleSortNew(self):
         is_sorted = True
+        if len(self) in [0, 1]:
+            return
 
         for i in range(len(self) - 1):
             if self[i].value > self[i + 1].value:
-                DoublyLinkedNode.swap(self[i], self[i + 1])
+                DoublyLinkedNode.move_link_right(self[i])
                 is_sorted = False
             continue
 

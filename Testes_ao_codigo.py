@@ -122,11 +122,12 @@ def vaziaTest():
     dll = DoublyLinkedList()
     return dll.vazia()
 
-test = {'ins(item)': insTest(lst_norm), 'len()': lenTest(lst_norm), 'mostrar()': mostrarTest(lst_norm),
-        'existe(item)': existeTest(lst_norm, vlr), 'ver(p)': verTest(lst_norm, ind), 'rem(item)': remTest(lst_norm, vlr),
-        'limpar()': limparTest(lst_norm), 'vazia()': vaziaTest()}
+#test = {'ins(item)': insTest(lst_norm), 'len()': lenTest(lst_norm), 'mostrar()': mostrarTest(lst_norm),
+        #'existe(item)': existeTest(lst_norm, vlr), 'ver(p)': verTest(lst_norm, ind), 'rem(item)': remTest(lst_norm, vlr),
+        #'limpar()': limparTest(lst_norm), 'vazia()': vaziaTest()}
 
-for i in test:
-    print(f'{i} --> {test[i]}')
+#for i in test:
+    #print(f'{i} --> {test[i]}')
 
-dll = fromListToDll([1,2])
+dll = fromListToDll([3,2,1,1,54,54,7,78,9,0,9,4,4,32,2])
+

@@ -112,9 +112,6 @@ class DoublyLinkedList(LinkedList):  # noqa
                 return self.limpar()
             return False
 
-        if len(self) == 0:
-            return False
-
         NodeOfValue = self.first(value)
         Prev = NodeOfValue.prev
         Next = NodeOfValue.next
@@ -146,10 +143,9 @@ class DoublyLinkedList(LinkedList):  # noqa
             return False
 
     def removeAll(self, value):
-        for i in self:
-            if i.value == value:
-                i.disconnect()
-                self.size -= 1
+        while self.rem(value) != False:
+            continue
+        return
 
     def rem(self, value):
         return self.removeFirst(value)
@@ -193,6 +189,22 @@ class DoublyLinkedList(LinkedList):  # noqa
                     nodeWithValueLessThanPopped.insertNext(valueOfPoppedNode)
         self.tail = current_node  # will always exist because listLen can't be 0
 
+# BubbleSort by swaping node values that are adjacent to each
+    def bubbleSortNew(self):
+        is_sorted = True
+
+        for i in range(len(self) - 1):
+            if self[i].value > self[i + 1].value:
+                DoublyLinkedNode.swap(self[i], self[i + 1])
+                is_sorted = False
+            continue
+
+        if is_sorted:
+            return
+
+        else:
+            self.bubbleSortNew()
+
     def bubbleSort(self):
         # TODO test it ty
         is_sorted = False
@@ -212,12 +224,3 @@ class DoublyLinkedList(LinkedList):  # noqa
 
 if __name__ == "__main__": #TODO remove this from final
     print("Local tests")
-    dll = DoublyLinkedList()
-    dll.append(1)
-    dll.append(2)
-    dll.append(3)
-    dll.append(4)
-    dll.append(5)
-    print(dll[-0])
-    print(dll[1])
-    print(dll[2])

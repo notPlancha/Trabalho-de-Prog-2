@@ -147,3 +147,19 @@ class LinkedList:
             return startPoint[0].move_n_times_right(count // 2 - 1), (count // 2 - 1) + startPoint[1]
         else:
             return startPoint[0].move_n_times_right(count // 2), (count // 2) + startPoint[1]  # TODO check
+
+    def findMiddleNode(self, startNode = None):
+        if len(self) == 0:
+            return None
+
+        if startNode == None:
+            startNode = self.head
+
+        slow = fast = startNode
+
+        while (fast.next != None) and (fast.next.next != None):
+            slow = slow.next
+            fast = fast.next.next
+        return slow
+
+

@@ -163,6 +163,37 @@ class DoublyLinkedList(LinkedList):  # noqa
                 end = (mid[0].prev, mid[1] - 1)
         return None, -1
 
+    def merge(self, node1, node2):
+        if node1 == None:
+            return node2
+        if node2 == None:
+            return node1
+
+        if node1.value <= node2.value:
+            resultado = node1
+            resultado.next = self.merge(node1.next, node2)
+
+        else:
+            resultado = node2
+            resultado.next = self.merge(node1, node2.next)
+
+        return resultado
+
+    def mergeSortNew(self, h):
+        if h == None or h.next == None:
+            return h
+
+        meio = self.findMiddleNode(h)
+        nextToMeio = meio.next
+
+        meio.next = None
+
+        Left = self.mergeSortNew(h)
+        Right = self.mergeSortNew(nextToMeio)
+
+        sortedList = self.merge(Left, Right)
+
+        return sortedList
 
     def insertionSortNew(self):
         #se a lista for vazia ou tiver apenas um elemento nao precisa de ser ordenada

@@ -118,17 +118,20 @@ def limparTest(lista_normal):
 
     return lista_comp == []
 
-def vaziaTest():
+def vaziaTest(lista_normal):
     dll = DoublyLinkedList()
     return dll.vazia()
+if __name__ == "__main__":
+    for lst_norm in [
+        [1,2,3,4,5],
+        [831,2134,3242,42],
+        [],
+        [136],
 
-#test = {'ins(item)': insTest(lst_norm), 'len()': lenTest(lst_norm), 'mostrar()': mostrarTest(lst_norm),
-        #'existe(item)': existeTest(lst_norm, vlr), 'ver(p)': verTest(lst_norm, ind), 'rem(item)': remTest(lst_norm, vlr),
-        #'limpar()': limparTest(lst_norm), 'vazia()': vaziaTest()}
+    ]:
+        test = {'ins(item)': insTest(lst_norm), 'len()': lenTest(lst_norm), 'mostrar()': mostrarTest(lst_norm),
+                'existe(item)': existeTest(lst_norm, vlr), 'ver(p)': verTest(lst_norm, ind), 'rem(item)': remTest(lst_norm, vlr),
+                'limpar()': limparTest(lst_norm), 'vazia()': vaziaTest()}
 
-#for i in test:
-    #print(f'{i} --> {test[i]}')
-
-dll = fromListToDll([6,76,2])
-
-
+        for i in test:
+            print(f'{i} --> {test[i]}')

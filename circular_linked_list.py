@@ -55,7 +55,7 @@ class CircularLinkedList(LinkedList):  # noqa
         return False
 
     def bubbleSort(self):
-        # TODO Test here too
+        # TODO ver o que e o lastOrder
         is_sorted = False
         lastOrdered = None
         while not is_sorted:

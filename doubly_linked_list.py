@@ -60,9 +60,9 @@ class DoublyLinkedNode(LinkedNode):
             yield left
             left = left.prev
 
-    def disconect(self, B_prev_node, B_next_node):
-        A = B_prev_node
-        C = B_next_node
+    def disconect(self):
+        A = self.prev
+        C = self.next
         if A is not None: A.next = C
         if C is not None: C.prev = A
 
@@ -194,8 +194,8 @@ class DoublyLinkedList(LinkedList):  # noqa
         sortedList = self.merge(Left, Right)
 
         return sortedList
-
-    def insertionSortNew(self):
+    #TODO remove
+    def insertionSortAfonso(self):
         #se a lista for vazia ou tiver apenas um elemento nao precisa de ser ordenada
         if len(self) in [0, 1]:
             return
@@ -232,19 +232,8 @@ class DoublyLinkedList(LinkedList):  # noqa
                     break
         return
 
-
-
-
-
-
-
-
-
-
-
-
-
-    def insertionSort(self):
+    #TODO remove
+    def insertionSortAndre(self):
         # TODO test this ty
         if len(self) in [0, 1]:
             return
@@ -252,7 +241,7 @@ class DoublyLinkedList(LinkedList):  # noqa
             if current_node.value > current_node.next.value:
                 nodePopped: DoublyLinkedNode = current_node.next
                 valueOfPoppedNode = nodePopped.value
-                nodePopped.disconect(nodePopped.prev, nodePopped.next)
+                nodePopped.disconect()
                 nodeWithValueLessThanPopped: DoublyLinkedNode | None = None
                 for nodeLeftToPopped in current_node.getAllLeft():
                     if nodeLeftToPopped.value < valueOfPoppedNode:
@@ -264,8 +253,8 @@ class DoublyLinkedList(LinkedList):  # noqa
                     nodeWithValueLessThanPopped.insertNext(valueOfPoppedNode)
         self.tail = current_node  # will always exist because listLen can't be 0
 
-# BubbleSort by swaping node values that are adjacent to each other
-    def bubbleSortNew(self):
+    # BubbleSort by swaping node values that are adjacent to each other
+    def bubbleSortAfonso(self):
         is_sorted = True
         #se a lista for vazia ou tiver apenas um elemento nao precisa de ser ordenada
         if len(self) in [0, 1]:
@@ -278,13 +267,14 @@ class DoublyLinkedList(LinkedList):  # noqa
                 is_sorted = False
             continue
 
-        #vai se repetindo este processo ate uma situacao em que percorremos a lista e nao temos que trocar nenhuns valores em nodes adjacentes
+        #vai se repetindo este processo ate uma situacao em que percorremos a lista e nao temos que trocar nenhuns
+        # valores em nodes adjacentes
         #(Nesta situacao a lista esta ordenada e podemos retornar a lista tranformada por ordem crescente)
         if is_sorted:
             return
 
         else:
-            self.bubbleSortNew()
+            self.bubbleSortAfonso()
 
     def bubbleSort(self):
         # TODO test it ty
@@ -293,7 +283,7 @@ class DoublyLinkedList(LinkedList):  # noqa
         while not is_sorted:
             is_sorted = True
             current_node = self.head
-            while current_node.next is not None or current_node.next != lastOrdered:
+            while current_node.next is not None and current_node.next != lastOrdered:
                 if current_node.value > current_node.next.value:
                     DoublyLinkedNode.swap(current_node, current_node.next)
                     is_sorted = False
@@ -305,3 +295,11 @@ class DoublyLinkedList(LinkedList):  # noqa
 
 if __name__ == "__main__": #TODO remove this from final
     print("Local tests")
+    from Testes_ao_codigo import fromDllToList, fromListToDll
+
+    lista_teste = [8,2,4,36,3,14,15,1]
+    dll1 = fromListToDll(lista_teste)
+    dll1.bubbleSort()
+    list_org = fromDllToList(dll1)
+    print(list_org)
+    print(sorted(lista_teste))

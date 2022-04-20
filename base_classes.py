@@ -141,9 +141,23 @@ class LinkedList:
         # if range count is even then there are 2 middle nodes, this gets the first one
         if startPoint is None: startPoint = (self.head, 0)
         if endPoint is None: endPoint = (self.tail, self.size - 1)
-        count = startPoint[1] - endPoint[1]
+        count = endPoint[1] - startPoint[1]
         if count % 2 == 0:
             # Test this specifically too
             return startPoint[0].move_n_times_right(count // 2 - 1), (count // 2 - 1) + startPoint[1]
         else:
             return startPoint[0].move_n_times_right(count // 2), (count // 2) + startPoint[1]  # TODO check
+
+    def findMiddleNode(self, startNode = None):
+        if len(self) == 0:
+            return None
+
+        if startNode is None:
+            startNode = self.head
+
+        slow = fast = startNode
+
+        while (fast.next is not None) and (fast.next.next is not None):
+            slow = slow.next
+            fast = fast.next.next
+        return slow

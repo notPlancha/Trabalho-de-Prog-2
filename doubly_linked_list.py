@@ -3,7 +3,6 @@ from typing import Literal, Tuple, List
 from base_classes import LinkedNode, LinkedList
 
 
-# TODO: I really don't know how to implement Nota 2
 class DoublyLinkedNode(LinkedNode):
     def __init__(self, value, next=None, prev=None):
         super().__init__(value, next)
@@ -54,18 +53,15 @@ class DoublyLinkedNode(LinkedNode):
         self.prev = nod
         return nod
 
-    def popLink(self):
-        self.prev = self.next
-
     def getAllLeft(self):
         left = self.prev
         while left is not None:
             yield left
             left = left.prev
 
-    def disconect(self, B_prev_node, B_next_node):
-        A = B_prev_node
-        C = B_next_node
+    def disconect(self):
+        A = self.prev
+        C = self.next
         if A is not None: A.next = C
         if C is not None: C.prev = A
 
@@ -97,7 +93,7 @@ class DoublyLinkedList(LinkedList):  # noqa
             self.tail = self.head
         else:
             self.head = DoublyLinkedNode(value, next=self.head)
-            self.head.prev = self.head
+            self.head.next.prev = self.head
 
     def ins(self, item):
         return self.append(item)
@@ -110,9 +106,6 @@ class DoublyLinkedList(LinkedList):  # noqa
         if self.first(value) is None:
             if self.head == value:
                 return self.limpar()
-            return False
-
-        if len(self) == 0:
             return False
 
         NodeOfValue = self.first(value)
@@ -146,10 +139,9 @@ class DoublyLinkedList(LinkedList):  # noqa
             return False
 
     def removeAll(self, value):
-        for i in self:
-            if i.value == value:
-                i.disconnect()
-                self.size -= 1
+        while self.rem(value) != False:
+            continue
+        return
 
     def rem(self, value):
         return self.removeFirst(value)
@@ -170,28 +162,40 @@ class DoublyLinkedList(LinkedList):  # noqa
                 end = (mid[0].prev, mid[1] - 1)
         return None, -1
 
-    def insertionSort(self):
-        # TODO test this ty
-        listLen = len(self)
-        if listLen in [0, 1]:
-            return
-        current_node = None
-        for current_node in self:
-            if current_node.value > current_node.next.value:
-                nodePopped: DoublyLinkedNode = current_node.next
-                valueOfPoppedNode = nodePopped.value
-                nodePopped.popLink()
-                del nodePopped
-                nodeWithValueLessThanPopped: DoublyLinkedNode | None = None
-                for nodeLeftToPopped in current_node.getAllLeft():
-                    if nodeLeftToPopped.value < valueOfPoppedNode:
-                        nodeWithValueLessThanPopped = nodeLeftToPopped
-                        break
-                if nodeWithValueLessThanPopped is None:
-                    self.prepend(valueOfPoppedNode)
-                else:
-                    nodeWithValueLessThanPopped.insertNext(valueOfPoppedNode)
-        self.tail = current_node  # will always exist because listLen can't be 0
+    def merge(self, node1, node2):
+        if node1 == None:
+            return node2
+        if node2 == None:
+            return node1
+
+        if node1.value <= node2.value:
+            resultado = node1
+            resultado.next = self.merge(node1.next, node2)
+
+        else:
+            resultado = node2
+            resultado.next = self.merge(node1, node2.next)
+
+        return resultado
+
+    def mergeSort(self, start = None):
+        #TODO mergeSort
+        if start is None:
+            starts = self.head
+        if start is None or start.next is None:
+            return start
+
+        meio = self.findMiddleNode(start)
+        nextToMeio = meio.next
+
+        meio.next = None
+
+        Left = self.mergeSort(start)
+        Right = self.mergeSort(nextToMeio)
+
+        sortedList = self.merge(Left, Right)
+
+        return sortedList
 
     def bubbleSort(self):
         # TODO test it ty
@@ -200,7 +204,7 @@ class DoublyLinkedList(LinkedList):  # noqa
         while not is_sorted:
             is_sorted = True
             current_node = self.head
-            while current_node.next is not None or current_node.next != lastOrdered:
+            while current_node.next is not None and current_node.next != lastOrdered:
                 if current_node.value > current_node.next.value:
                     DoublyLinkedNode.swap(current_node, current_node.next)
                     is_sorted = False
@@ -212,12 +216,21 @@ class DoublyLinkedList(LinkedList):  # noqa
 
 if __name__ == "__main__": #TODO remove this from final
     print("Local tests")
-    dll = DoublyLinkedList()
-    dll.append(1)
-    dll.append(2)
-    dll.append(3)
-    dll.append(4)
-    dll.append(5)
-    print(dll[-0])
-    print(dll[1])
-    print(dll[2])
+    def temp():
+        from Testes_ao_codigo import fromDllToList, fromListToDll
+
+        lista_teste = [8,2,4,36,3,14,15,1]
+        dll1 = fromListToDll(lista_teste)
+        dll1.bubbleSort()
+        list_org = fromDllToList(dll1)
+        print(list_org)
+        print(sorted(lista_teste))
+
+    from Testes_ao_codigo import fromDllToList, fromListToDll
+
+    lista_teste = [8,2,4,36,3,14,15,1]
+    dll1 = fromListToDll(lista_teste)
+    dll1.mergeSort()
+    list_org = fromDllToList(dll1)
+    print(list_org)
+    print(sorted(lista_teste))

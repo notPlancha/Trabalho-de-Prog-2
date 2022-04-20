@@ -3,7 +3,6 @@ from typing import Literal, Tuple, List
 from base_classes import LinkedNode, LinkedList
 
 
-# TODO: I really don't know how to implement Nota 2
 class DoublyLinkedNode(LinkedNode):
     def __init__(self, value, next=None, prev=None):
         super().__init__(value, next)
@@ -179,102 +178,24 @@ class DoublyLinkedList(LinkedList):  # noqa
 
         return resultado
 
-    def mergeSortNew(self, h):
-        if h == None or h.next == None:
-            return h
+    def mergeSort(self, start = None):
+        #TODO mergeSort
+        if start is None:
+            starts = self.head
+        if start is None or start.next is None:
+            return start
 
-        meio = self.findMiddleNode(h)
+        meio = self.findMiddleNode(start)
         nextToMeio = meio.next
 
         meio.next = None
 
-        Left = self.mergeSortNew(h)
-        Right = self.mergeSortNew(nextToMeio)
+        Left = self.mergeSort(start)
+        Right = self.mergeSort(nextToMeio)
 
         sortedList = self.merge(Left, Right)
 
         return sortedList
-    #TODO remove
-    def insertionSortAfonso(self):
-        #se a lista for vazia ou tiver apenas um elemento nao precisa de ser ordenada
-        if len(self) in [0, 1]:
-            return
-
-        #iteracao aos nodes da lista atraves dos respetivos indices (do segundo ao ultimo)
-        for i in range(1, len(self)):
-            val = self[i].value# valor do node iterado
-            Prev = self[i].prev# node anterior
-            Next = self[i].next# node seguinte
-
-            #comparamos o valor do node iterado com os valores da lista de nodes, composta pelos elementos a esquerda ao node iterado
-            for PrevNodes in self[i].getAllLeft():
-                if val > PrevNodes.value:
-                    if Prev is None:
-                        self.head = Next
-
-                    if Next is None:
-                        self.tail = Prev
-
-                    self[i].disconect(Prev, Next)
-                    PrevNodes.insertNext(val)
-                    break
-
-                if PrevNodes == self.head and val <= PrevNodes.value:
-                    if Prev is None:
-                        self.head = Next
-
-                    if Next is None:
-                        self.tail = Prev
-
-                    self[i].disconect(Prev, Next)
-                    self.prepend(val)
-
-                    break
-        return
-
-    #TODO remove
-    def insertionSortAndre(self):
-        # TODO test this ty
-        if len(self) in [0, 1]:
-            return
-        for current_node in self:
-            if current_node.value > current_node.next.value:
-                nodePopped: DoublyLinkedNode = current_node.next
-                valueOfPoppedNode = nodePopped.value
-                nodePopped.disconect()
-                nodeWithValueLessThanPopped: DoublyLinkedNode | None = None
-                for nodeLeftToPopped in current_node.getAllLeft():
-                    if nodeLeftToPopped.value < valueOfPoppedNode:
-                        nodeWithValueLessThanPopped = nodeLeftToPopped
-                        break
-                if nodeWithValueLessThanPopped is None:
-                    self.prepend(valueOfPoppedNode)
-                else:
-                    nodeWithValueLessThanPopped.insertNext(valueOfPoppedNode)
-        self.tail = current_node  # will always exist because listLen can't be 0
-
-    # BubbleSort by swaping node values that are adjacent to each other
-    def bubbleSortAfonso(self):
-        is_sorted = True
-        #se a lista for vazia ou tiver apenas um elemento nao precisa de ser ordenada
-        if len(self) in [0, 1]:
-            return
-
-        #iteracao aos nodes da lista atraves dos respetivos indices (do primeiro ao penultimo)
-        for i in range(len(self) - 1):
-            if self[i].value > self[i + 1].value:
-                DoublyLinkedNode.move_link_right(self[i])
-                is_sorted = False
-            continue
-
-        #vai se repetindo este processo ate uma situacao em que percorremos a lista e nao temos que trocar nenhuns
-        # valores em nodes adjacentes
-        #(Nesta situacao a lista esta ordenada e podemos retornar a lista tranformada por ordem crescente)
-        if is_sorted:
-            return
-
-        else:
-            self.bubbleSortAfonso()
 
     def bubbleSort(self):
         # TODO test it ty
@@ -295,11 +216,21 @@ class DoublyLinkedList(LinkedList):  # noqa
 
 if __name__ == "__main__": #TODO remove this from final
     print("Local tests")
+    def temp():
+        from Testes_ao_codigo import fromDllToList, fromListToDll
+
+        lista_teste = [8,2,4,36,3,14,15,1]
+        dll1 = fromListToDll(lista_teste)
+        dll1.bubbleSort()
+        list_org = fromDllToList(dll1)
+        print(list_org)
+        print(sorted(lista_teste))
+
     from Testes_ao_codigo import fromDllToList, fromListToDll
 
     lista_teste = [8,2,4,36,3,14,15,1]
     dll1 = fromListToDll(lista_teste)
-    dll1.bubbleSort()
+    dll1.mergeSort()
     list_org = fromDllToList(dll1)
     print(list_org)
     print(sorted(lista_teste))

@@ -5,7 +5,11 @@ from base_classes import LinkedNode, LinkedList
 
 class CircularLinkedList(LinkedList):  # noqa
     def __str__(self):
-        return super().__str__() + " -> " + str(self.head) + "-> ..."
+        if self.head == None:
+            return '[]'
+        if self.size == 1:
+            return f'[{self.head.value}]'
+        return super().__str__() + "-> ..."
 
     def ordenar(self, which: Literal['m', 'q', 'i', 'b'] = "m"):  # TODO mudar para o mais efetivo
         return super().ordenar(which)
@@ -24,9 +28,8 @@ class CircularLinkedList(LinkedList):  # noqa
         if self.size == 0:
             return self.append(item)
         else:
-            self.head.next = LinkedNode(item)
-            self.head = self.head.next
-            self.head.next = self.tail
+            self.tail.next = LinkedNode(item, self.head)
+            self.head = self.tail.next
         self.size += 1
 
     def ins(self, item):
@@ -46,11 +49,11 @@ class CircularLinkedList(LinkedList):  # noqa
                     self.tail.next = self.head
                 else:
                     prev.next = i.next
-                return True
+                return
             prev = i
         return False
 
-    def bubbleSort(self):
+    def bubbleSort(self):#Todo need test
         is_sorted = False
         while not is_sorted:
             is_sorted = True
@@ -79,8 +82,4 @@ class CircularLinkedList(LinkedList):  # noqa
 
 if __name__ == "__main__":
     # tests TODO
-
-    cll = CircularLinkedList()
-    cll.append(6)
-    cll.append(7)
-    cll.append(4)
+    pass

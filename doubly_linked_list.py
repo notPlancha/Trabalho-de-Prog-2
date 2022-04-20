@@ -37,16 +37,14 @@ class DoublyLinkedNode(LinkedNode):
             raise DoublyLinkedNode.NoPrev("Index out of range")
         DoublyLinkedNode.swap(self, self.prev)
 
-    def insertNext(self, value):
-        # TODO test ty
+    def insertNext(self, value):# not for tail nodes
         nod = DoublyLinkedNode(value, next=self.next, prev=self)
         if nod.next is not None:
             nod.next.prev = nod
         self.next = nod
         return nod
 
-    def insertPrev(self, value):
-        # TODO test ty
+    def insertPrev(self, value):# not for head nodes
         nod = DoublyLinkedNode(value, next=self, prev=self.prev)
         if nod.prev is not None:
             nod.prev.next = nod
@@ -120,7 +118,7 @@ class DoublyLinkedList(LinkedList):  # noqa
                 self.tail = Prev
                 self.head = self.tail
 
-            NodeOfValue.disconect(Prev, Next)
+            NodeOfValue.disconect()
             self.size -= 1
             return
 
@@ -131,7 +129,7 @@ class DoublyLinkedList(LinkedList):  # noqa
             if Next is None:
                 self.tail = Prev
 
-            NodeOfValue.disconect(Prev, Next)
+            NodeOfValue.disconect()
             self.size -= 1
             return
 
@@ -181,7 +179,7 @@ class DoublyLinkedList(LinkedList):  # noqa
     def mergeSort(self, start = None):
         #TODO mergeSort
         if start is None:
-            starts = self.head
+            start = self.head
         if start is None or start.next is None:
             return start
 
@@ -213,7 +211,7 @@ class DoublyLinkedList(LinkedList):  # noqa
 
     def ordenar(self, which: Literal['m', 'q', 'i', 'b'] = "m"):  # TODO mudar para o mais efetivo
         return super().ordenar(which)
-
+'''
 if __name__ == "__main__": #TODO remove this from final
     print("Local tests")
     def temp():
@@ -234,3 +232,4 @@ if __name__ == "__main__": #TODO remove this from final
     list_org = fromDllToList(dll1)
     print(list_org)
     print(sorted(lista_teste))
+'''

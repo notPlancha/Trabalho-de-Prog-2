@@ -1,4 +1,5 @@
 from doubly_linked_list import DoublyLinkedList, DoublyLinkedNode
+from circular_linked_list import CircularLinkedList
 
 #Objects and variables that will be used specifically on this test (can be changed)
 lst_norm = [1, 2, 3, 4]# list
@@ -67,14 +68,17 @@ def mostrarTest(lista_normal):
 
 #this function searches for a certain value. It returns 0 if the value is not on the linked list,
 #otherwise it will return the position of the first element of the linkedlist that equals the given value
-def existeTest(lista_normal, valor):
+def existeTest(lista_normal):
     dll1 = fromListToDll(lista_normal)
     lst_string = ''
 
     for elemento in lista_normal:
         lst_string += str(elemento)
 
-    return lst_string.find(str(valor)) + 1 == dll1.existe(valor)
+    for valor in lst_string:
+        if (lst_string.find(valor) + 1 == dll1.existe(int(valor))) is not True:
+            return False
+    return True
 
 def verTest(lista_normal, indice):
     dll1 = fromListToDll(lista_normal)
@@ -99,12 +103,14 @@ def remTest(lista_normal, item):
     dll1 = dll1.rem(item)
 
     try:
-        lista_normal.remove(item)
+        lista_normal = lista_normal.remove(item)
 
         if dll1 == False:
             return False
-        dll1 = fromDllToList(dll1)
-        return dll1 == lista_normal
+
+        else:
+            dll1 = fromDllToList(dll1)
+            return dll1 == lista_normal
 
     except:
         return False
@@ -118,9 +124,24 @@ def limparTest(lista_normal):
 
     return lista_comp == []
 
+
+
 def vaziaTest(lista_normal):
-    dll = DoublyLinkedList()
-    return dll.vazia()
+    dll1 = fromListToDll(lista_normal)
+    lst1 = fromDllToList(dll1)
+
+    dll2 = DoublyLinkedList()
+    return (dll1.vazia() == (len(lst1) == 0)) and (dll2.vazia())
+
+def ordenarTest(lista_normal, sortMethod = 'b'):
+    dll1 = fromListToDll(lista_normal)
+
+    lista_normal.sort()
+    dll1.ordenar(sortMethod)
+
+    return dll1 == lista_normal
+
+'''
 if __name__ == "__main__":
     for lst_norm in [
         [1,2,3,4,5],
@@ -131,7 +152,14 @@ if __name__ == "__main__":
     ]:
         test = {'ins(item)': insTest(lst_norm), 'len()': lenTest(lst_norm), 'mostrar()': mostrarTest(lst_norm),
                 'existe(item)': existeTest(lst_norm, vlr), 'ver(p)': verTest(lst_norm, ind), 'rem(item)': remTest(lst_norm, vlr),
-                'limpar()': limparTest(lst_norm), 'vazia()': vaziaTest()}
+                'limpar()': limparTest(lst_norm), 'vazia()': vaziaTest(), 'order()' : '?'}
 
         for i in test:
             print(f'{i} --> {test[i]}')
+'''
+
+dll = fromListToDll([5,4,3,2,1,1])
+
+# Circular Linked List Tests
+
+cll = CircularLinkedList()

@@ -21,7 +21,6 @@ class LinkedNode:
         else: return self.value == other
 
     def move_n_times_right(self, n):
-        #TODO test this and the left one ty
         current_node : LinkedNode = self
         for i in range(n):
             if current_node.next is None:
@@ -38,8 +37,7 @@ class LinkedNode:
         else:
             return f"{self.value} ->"
 
-    def insertNext(self, value):
-        #TODO test ty
+    def insertNext(self, value):# not for tail nodes
         self.next = LinkedNode(value, self.next)
         return self.next
 
@@ -78,7 +76,13 @@ class LinkedList:
         self.__init__()
 
     def mostrar(self):
-        print(self)
+        if len(self) == 0:
+            return '[]'
+
+        if len(self) == 1:
+            return f'[{self.head.value}]'
+        else:
+            print(self)
 
     def __str__(self):
         return " -> ".join([str(node) for node in self])

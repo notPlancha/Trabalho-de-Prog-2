@@ -55,6 +55,8 @@ class LinkedList:
         self.size = 0
 
     def __iter__(self) -> LinkedNode:
+        if self.size == 0:
+            return
         if self.size <= 1:
             yield self.head
             return
@@ -113,9 +115,9 @@ class LinkedList:
         if which == 'm':
             self.mergeSort()
         elif which == 'q':
-            self.quickSort()
+            return False
         elif which == 'i':
-            self.insertionSort()
+            return False
         elif which == 'b':
             self.bubbleSort()
         else:

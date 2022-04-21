@@ -41,17 +41,21 @@ def fromListToCll(lista_normal) -> CircularLinkedList:
     ret = CircularLinkedList()
     if len(lista_normal) == 0:
         return ret
+
     if len(lista_normal) == 1:
         ret.head = ret.tail = LinkedNode(lista_normal[0])
         ret.size = 1
         ret.head.next = ret.tail
         return ret
+
     ret.head = current_node = LinkedNode(lista_normal[0])
     for elem in lista_normal[1:]:
         current_node.next = current_node = LinkedNode(elem)
+
     ret.tail = current_node
     ret.tail.next = ret.head
     ret.size = len(lista_normal)
+    return ret
 
 # test functions
 def insTest(lista_normal):
@@ -120,19 +124,13 @@ def verTest(lista_normal, indice):
 def remTest(lista_normal, item):
     dll1 = fromListToDll(lista_normal)
     dll1 = dll1.rem(item)
+    lista_normal = lista_normal.remove(item)
 
-    try:
-        lista_normal = lista_normal.remove(item)
-
-        if dll1 == False:
-            return False
-
-        else:
-            dll1 = fromDllToList(dll1)
-            return dll1 == lista_normal
-
-    except:
+    if dll1 == False:
         return False
+
+    dll1 = fromDllToList(dll1)
+    return dll1 == lista_normal
 
 def limparTest(lista_normal):
     dll1 = fromListToDll(lista_normal)
@@ -142,8 +140,6 @@ def limparTest(lista_normal):
     lista_comp = fromDllToList(dll1)
 
     return lista_comp == []
-
-
 
 def vaziaTest(lista_normal):
     dll1 = fromListToDll(lista_normal)
@@ -158,9 +154,11 @@ def ordenarTest(lista_normal, sortMethod : Literal['m', 'q', 'i', 'b'] = 'b'):
     lista_normal.sort()
     dll1.ordenar(sortMethod)
 
+    dll1 = fromDllToList(dll1)
     return dll1 == lista_normal
 
 
+'''
 if __name__ == "__main__":
     for lst_norm in [
         [1,2,3,4,5],
@@ -169,15 +167,20 @@ if __name__ == "__main__":
         [136],
 
     ]:
-        test = {'ins(item)': insTest(lst_norm), 'len()': lenTest(lst_norm), 'mostrar()': mostrarTest(lst_norm),
-                'existe(item)': existeTest(lst_norm, vlr), 'ver(p)': verTest(lst_norm, ind), 'rem(item)': remTest(lst_norm, vlr),
-                'limpar()': limparTest(lst_norm), 'vazia()': vaziaTest(), 'order()' : '?'}
+        test = {'ins(item)': insTest(lst_norm),
+                'len()': lenTest(lst_norm),
+                'mostrar()': mostrarTest(lst_norm),
+                'existe(item)': existeTest(lst_norm),
+                'ver(p)': verTest(lst_norm, ind),
+                'rem(item)': remTest(lst_norm, vlr),
+                'limpar()': limparTest(lst_norm),
+                'vazia()': vaziaTest(lst_norm),
+                'order()' : '?'}
 
         for i in test:
             print(f'{i} --> {test[i]}')
+'''
 
-    dll = fromListToDll([5,4,3,2,1,1])
+dll = fromListToDll([5,4,3,2,1,1])
+cll = fromListToCll([1,3,4,5,6,674,2,2,21])
 
-    # Circular Linked List Tests
-
-    cll = CircularLinkedList()

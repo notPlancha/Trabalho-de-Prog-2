@@ -1,5 +1,6 @@
 # base classes of linked lists should not have remove and insert methods (and binary search)
-from typing import Literal, Tuple
+import warnings
+from typing import Literal, Tuple, List
 
 
 class LinkedNode:
@@ -43,7 +44,12 @@ class LinkedNode:
         self.next = LinkedNode(value, self.next)
         return self.next
 
-
+    def __iter__(self):
+        currentNode = self
+        while currentNode is not None:
+            yield currentNode
+            currentNode = currentNode.next
+        raise StopIteration
 class LinkedList:
     def __init__(self):
         self.head = None
@@ -112,8 +118,52 @@ class LinkedList:
         else:
             raise ValueError("Invalid argument")
 
-    def mergeSort(self):
-        raise NotImplementedError("mergeSort not implemented on this list")
+    @staticmethod
+    def sortedMerge(a,b, isDoublyLinked = False) -> Tuple[LinkedNode, LinkedNode, int]:
+        #TODO test
+        pointera = a.head
+        pointerb = b.head
+        retHead = currentNode = LinkedNode(0)
+        while True:
+            if pointera.value > pointerb.value:
+                currentNode = currentNode.insertNext(pointera.value)
+                if pointera.next is None:
+                    for i in pointerb:
+                        currentNode = currentNode.insertNext(i.value)
+                    return retHead.next, currentNode, a.size + b.size
+                else:
+                    pointera = pointera.next
+            else:
+                currentNode = currentNode.insertNext(pointerb.value)
+                if pointerb.next is None:
+                    for i in pointera:
+                        currentNode = currentNode.insertNext(i.value)
+                    return retHead.next, currentNode, a.size + b.size
+    def mergeSort(self, isCircular = False, isDoublyLinked = False):
+        #TODO test
+        if isCircular: #verificar se é preciso
+            self.tail = None
+        if self.size == 1:
+            return
+        mid = self.findMiddle()
+        a = type(self)()
+        a.head = self.head
+        a.tail = mid[0]
+        a.size = mid[1] + 1
+        b = type(self)()
+        b.head = mid[0].next
+        b.tail = self.tail
+        b.size = self.size - mid[1]
+
+        a.mergeSort()
+        b.mergeSort()
+
+        result = type(self).sortedMerge(a, b)
+        self.head = result[0]
+        self.tail = result[1]
+        self.size = result[2]
+        if isCircular: # verificar se é preciso
+            self.tail.next = self.head
 
     def quickSort(self):
         raise NotImplementedError("quickSort not implemented on this list")
@@ -122,7 +172,15 @@ class LinkedList:
         raise NotImplementedError("insertionSort not implemented on this list")
 
     def bubbleSort(self):
-        raise NotImplementedError("bubbleSort not implemented on this list")
+        is_sorted = False
+        while not is_sorted:
+            is_sorted = True
+            current_node = self.head
+            while current_node.next is not None:
+                if current_node.value > current_node.next.value:
+                    LinkedNode.swap(current_node, current_node.next)
+                    is_sorted = False
+                current_node = current_node.next
 
     def indexOf(self, value) -> int:
         a = 0
@@ -138,17 +196,13 @@ class LinkedList:
     def findMiddle(self, startPoint: Tuple[LinkedNode, int] = None,
                    endPoint: Tuple[LinkedNode, int] = None) -> Tuple[LinkedNode, int]:
         # TODO test
-        # if range count is even then there are 2 middle nodes, this gets the first one
         if startPoint is None: startPoint = (self.head, 0)
         if endPoint is None: endPoint = (self.tail, self.size - 1)
         count = endPoint[1] - startPoint[1]
-        if count % 2 == 0:
-            # Test this specifically too
-            return startPoint[0].move_n_times_right(count // 2 - 1), (count // 2 - 1) + startPoint[1]
-        else:
-            return startPoint[0].move_n_times_right(count // 2), (count // 2) + startPoint[1]  # TODO check
+        return [startPoint[0].move_n_times_right(count // 2), (count // 2) + startPoint[1]]  # TODO check
 
     def findMiddleNode(self, startNode = None):
+        warnings.warn("Depricated, use findMiddle Instead")
         if len(self) == 0:
             return None
 

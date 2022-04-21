@@ -1,3 +1,4 @@
+import warnings
 from typing import Literal, Tuple, List
 
 from base_classes import LinkedNode, LinkedList
@@ -178,8 +179,8 @@ class DoublyLinkedList(LinkedList):  # noqa
 
         return resultado
 
-    def mergeSort(self, start = None):
-        #TODO mergeSort
+    def mergeSortOld(self, start = None):
+        warnings.warn("Depricated, use mergeSort instead", DeprecationWarning)
         if start is None:
             starts = self.head
         if start is None or start.next is None:
@@ -197,6 +198,9 @@ class DoublyLinkedList(LinkedList):  # noqa
 
         return sortedList
 
+    def mergeSort(self):
+        return super().mergeSort(isCircular=False, isDoublyLinked=True)
+
     def bubbleSort(self):
         # TODO test it ty
         is_sorted = False
@@ -208,7 +212,7 @@ class DoublyLinkedList(LinkedList):  # noqa
                 if current_node.value > current_node.next.value:
                     DoublyLinkedNode.swap(current_node, current_node.next)
                     is_sorted = False
-                    lastOrdered = current_node.next.value
+
                 current_node = current_node.next
 
     def ordenar(self, which: Literal['m', 'q', 'i', 'b'] = "m"):  # TODO mudar para o mais efetivo
@@ -230,7 +234,5 @@ if __name__ == "__main__": #TODO remove this from final
 
     lista_teste = [8,2,4,36,3,14,15,1]
     dll1 = fromListToDll(lista_teste)
-    dll1.mergeSort()
-    list_org = fromDllToList(dll1)
-    print(list_org)
-    print(sorted(lista_teste))
+    print(dll1[1])
+    print(dll1.findMiddle(startPoint=(dll1[2], 2))[0])

@@ -50,17 +50,6 @@ class CircularLinkedList(LinkedList):  # noqa
             prev = i
         return False
 
-    def bubbleSort(self):
-        is_sorted = False
-        while not is_sorted:
-            is_sorted = True
-            current_node = self.head
-            while current_node.next is not None:
-                if current_node.value > current_node.next.value:
-                    LinkedNode.swap(current_node, current_node.next)
-                    is_sorted = False
-                current_node = current_node.next
-
     def binarySearch(self, item, order=False) -> Tuple[LinkedNode | None, int]: # TODO change to True default
         #TODO test
         if order:

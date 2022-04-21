@@ -8,7 +8,7 @@ class CircularLinkedList(LinkedList):  # noqa
         #todo test
         if self.head is None:
             return 'Empty'
-        return super().__str__() + " -> / " + str(self.head.value) + "-> ... "
+        return super().__str__() + " -> / " + str(self.head.value) + " -> ... "
 
     def ordenar(self, which: Literal['m', 'q', 'i', 'b'] = "m"):  # TODO mudar para o mais efetivo
         return super().ordenar(which)
@@ -22,6 +22,9 @@ class CircularLinkedList(LinkedList):  # noqa
             self.tail = self.tail.next
         self.tail.next = self.head
         self.size += 1
+
+    def ins(self, item):
+        return self.append(item)
 
     def prepend(self, item):
         #TODO test
@@ -69,6 +72,11 @@ class CircularLinkedList(LinkedList):  # noqa
             else:
                 end = mid
         return None, -1
+
+    def mergeSort(self, **kwargs):
+        return super().mergeSort(isCircular=True, isDoublyLinked=False)
+
+
 
 if __name__ == "__main__":
     # tests TODO

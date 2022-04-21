@@ -4,8 +4,10 @@ from doubly_linked_list import DoublyLinkedList, DoublyLinkedNode
 from circular_linked_list import CircularLinkedList
 from base_classes import LinkedNode
 
+#Doubly Linked List
+
 #Objects and variables that will be used specifically on this test (can be changed)
-lst_norm = [1, 2, 3, 4]# list
+lst_norm = [4,3,2,1]# test normal list
 vlr = 3# value
 ind = 2# index (begins on 0)
 
@@ -58,76 +60,112 @@ def fromListToCll(lista_normal) -> CircularLinkedList:
     return ret
 
 # test functions
-def insTest(lista_normal):
+def insTest(lista_normal, linkedListType = 'dll'):
     lista_comp = []
-    lista_comp_rev = []
-    dll1 = DoublyLinkedList()
 
-    for element_norm in lista_normal:
-        dll1.ins(element_norm)
+    match linkedListType:
+        case 'cll':
+            cll1 = CircularLinkedList()
 
-    current_node = dll1.head
-    while current_node is not None:
-        lista_comp.append(current_node.value)
-        current_node = current_node.next
+            for element_norm in lista_normal:
+                cll1.ins(element_norm)
 
-    current_node = dll1.tail
-    while current_node is not None:
-        lista_comp_rev.append(current_node.value)
-        current_node = current_node.prev
+            current_node = cll1.head
+            i = 0
+            while i != cll1.len():
+                lista_comp.append(current_node.value)
+                current_node = current_node.next
+                i += 1
 
-    lista_comp_rev.reverse()
-    return lista_comp == lista_comp_rev == lista_normal
+            return lista_comp == lista_normal
 
-def lenTest(lista_normal):
+        case _:
+            lista_comp_rev = []
+            dll1 = DoublyLinkedList()
+
+            for element_norm in lista_normal:
+                dll1.ins(element_norm)
+
+            current_node = dll1.tail
+            while current_node is not None:
+                lista_comp_rev.append(current_node.value)
+                current_node = current_node.prev
+
+            current_node = dll1.head
+
+            while current_node is not None:
+                lista_comp.append(current_node.value)
+                current_node = current_node.next
+
+            lista_comp_rev.reverse()
+            return lista_comp == lista_comp_rev == lista_normal
+
+def lenTest(lista_normal, linkedListType = 'dll'):
+    if linkedListType == 'cll':
+        cll1 = fromListToCll(lista_normal)
+        return len(lista_normal) == len(cll1) == cll1.len() == cll1.size
+
     dll1 = fromListToDll(lista_normal)
     return len(lista_normal) == len(dll1) == dll1.len() == dll1.size
 
-def mostrarTest(lista_normal):
+def mostrarTest(lista_normal, linkedListType = 'dll'):
+    if linkedListType == 'cll':
+        cll1 = fromListToCll(lista_normal)
+        lst1 = ""
+
+        for i in range(len(lista_normal)):
+            if i == len(lista_normal) - 1:
+                lst1 += str(lista_normal[i]) + " -> / " + str(lista_normal[0]) + " -> ... "
+                break
+            lst1 += str(lista_normal[i]) + " -> "
+            i += 1
+
+        return lst1 == cll1.mostrar()
+
     dll1 = fromListToDll(lista_normal)
     lst1 = ' <-> '.join([str(element_norm) for element_norm in lista_normal])
-    dll1.mostrar()
-    return (print(lst1) == dll1.mostrar())
+    return lst1 == dll1.mostrar()
+
 
 #this function searches for a certain value. It returns 0 if the value is not on the linked list,
 #otherwise it will return the position of the first element of the linkedlist that equals the given value
-def existeTest(lista_normal):
-    dll1 = fromListToDll(lista_normal)
+def existeTest(lista_normal, linkedListType = 'dll'):
     lst_string = ''
 
     for elemento in lista_normal:
         lst_string += str(elemento)
 
-    for valor in lst_string:
-        if (lst_string.find(valor) + 1 == dll1.existe(int(valor))) is not True:
+        if linkedListType == 'cll':
+            cll1 = fromListToCll(lista_normal)
+            for valor in lst_string:
+                if (lst_string.find(valor) + 1 != cll1.existe(int(valor))):
+                    return False
+            return True
+
+        dll1 = fromListToDll(lista_normal)
+        for valor in lst_string:
+            if (lst_string.find(valor) + 1 != dll1.existe(int(valor))):
+                return False
+        return True
+
+def verTest(lista_normal, linkedListType = 'dll'):
+    if linkedListType == 'cll':
+        cll1 = fromListToCll(lista_normal)
+        for i in range(len(lista_normal)):
+            if lista_normal[i] != cll1.ver(i):
+                return False
+        return True
+
+    dll1 = fromListToDll(lista_normal)
+    for i in range(len(lista_normal)):
+        if lista_normal[i] != dll1.ver(i):
             return False
     return True
 
-def verTest(lista_normal, indice):
+def remTest(lista_normal, item):# item tem que estar na lista
     dll1 = fromListToDll(lista_normal)
-
-    try:
-        value = lista_normal[indice]
-    except IndexError:
-        try:
-            dll1.ver(indice)
-            return False
-        except:
-            return False
-
-    try:
-        value2 = dll1.ver(indice)
-        return value == value2
-    except:
-        return False
-
-def remTest(lista_normal, item):
-    dll1 = fromListToDll(lista_normal)
-    dll1 = dll1.rem(item)
-    lista_normal = lista_normal.remove(item)
-
-    if dll1 == False:
-        return False
+    dll1.rem(item)
+    lista_normal.remove(item)
 
     dll1 = fromDllToList(dll1)
     return dll1 == lista_normal
@@ -148,39 +186,77 @@ def vaziaTest(lista_normal):
     dll2 = DoublyLinkedList()
     return (dll1.vazia() == (len(lst1) == 0)) and (dll2.vazia())
 
-def ordenarTest(lista_normal, sortMethod : Literal['m', 'q', 'i', 'b'] = 'b'):
+def ordenarTest(lista_normal):
     dll1 = fromListToDll(lista_normal)
+    dll2 = fromListToDll(lista_normal)
 
     lista_normal.sort()
-    dll1.ordenar(sortMethod)
+    dll1.ordenar('b')
+    dll2.ordenar('m')
 
-    dll1 = fromDllToList(dll1)
-    return dll1 == lista_normal
+    return fromDllToList(dll1) == lista_normal == fromDllToList(dll2)
 
+def binarySearchTest(lista_normal, item):
+    dll1 = fromListToDll(lista_normal)
+    pass
 
-'''
+print('Doubly Linked List Tests', end='\n\n')
+
 if __name__ == "__main__":
+    '''
+    n = 1
     for lst_norm in [
         [1,2,3,4,5],
         [831,2134,3242,42],
         [],
-        [136],
+        [136]]:
 
-    ]:
-        test = {'ins(item)': insTest(lst_norm),
-                'len()': lenTest(lst_norm),
-                'mostrar()': mostrarTest(lst_norm),
-                'existe(item)': existeTest(lst_norm),
-                'ver(p)': verTest(lst_norm, ind),
-                'rem(item)': remTest(lst_norm, vlr),
-                'limpar()': limparTest(lst_norm),
-                'vazia()': vaziaTest(lst_norm),
-                'order()' : '?'}
+        print(n, end='\n\n')
+    n += 1
+    
+    '''
 
-        for i in test:
-            print(f'{i} --> {test[i]}')
-'''
+    test = {'ins(item)': insTest(lst_norm),
+            'len()': lenTest(lst_norm),
+            'mostrar()': mostrarTest(lst_norm),
+            'existe(item)': existeTest(lst_norm),
+            'ver(p)': verTest(lst_norm),
+            'rem(item)': remTest(lst_norm, vlr),
+            'limpar()': limparTest(lst_norm),
+            'vazia()': vaziaTest(lst_norm),
+            'order()': ordenarTest(lst_norm)}
+    # , 'binarySearch(item)': binarySearchTest(lst_norm, vlr)}
 
-dll = fromListToDll([5,4,3,2,1,1])
-cll = fromListToCll([1,3,4,5,6,674,2,2,21])
+    for i in test:
+        print(f'{i} --> {test[i]}')
 
+#Circular Linked List
+
+    '''
+    n = 1
+    for lst_norm in [
+        [1,2,3,4,5],
+        [831,2134,3242,42],
+        [],
+        [136]]:
+
+        print(n, end='\n\n')
+    n += 1
+
+    '''
+    print('\n\nCircular Linked List Tests', end='\n\n')
+
+    test = {'ins(item)': insTest(lst_norm, 'cll'),
+            'len()': lenTest(lst_norm, 'cll'),
+            'mostrar()': mostrarTest(lst_norm, 'cll'),
+            'existe(item)': existeTest(lst_norm, 'cll')}
+
+
+    for i in test:
+        print(f'{i} --> {test[i]}')
+
+
+
+
+cll = fromListToCll([1,20,4,5])# Todo erase this in case i forget
+dll = fromListToDll([4,3,2,1]) # Todo erase this in case i forget

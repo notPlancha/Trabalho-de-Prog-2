@@ -85,7 +85,8 @@ class LinkedList:
         self.__init__()
 
     def mostrar(self):
-        print(self)
+        ll = self.__str__()
+        return ll
 
     def __str__(self):
         # TODO test

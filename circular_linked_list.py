@@ -5,7 +5,6 @@ from base_classes import LinkedNode, LinkedList
 
 class CircularLinkedList(LinkedList):  # noqa
     def __str__(self):
-        #todo test
         if self.head is None:
             return 'Empty'
         return super().__str__() + " -> / " + str(self.head.value) + " -> ... "
@@ -36,12 +35,6 @@ class CircularLinkedList(LinkedList):  # noqa
             self.head.next = self.tail
         self.size += 1
 
-    def ins(self, item):
-        return self.append(item)
-
-    def rem(self, item):
-        return self.RemoveFirst(item)
-
     # removes first found
     def RemoveFirst(self, item):
         prev = None
@@ -53,9 +46,13 @@ class CircularLinkedList(LinkedList):  # noqa
                     self.tail.next = self.head
                 else:
                     prev.next = i.next
-                return True
+                return
             prev = i
         return False
+
+    def rem(self, item):
+        return self.RemoveFirst(item)
+
 
     def binarySearch(self, item, order=True) -> Tuple[LinkedNode | None, int]:
         #TODO test

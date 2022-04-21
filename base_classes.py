@@ -89,11 +89,7 @@ class LinkedList:
         return ll
 
     def __str__(self):
-        # TODO test
-        if len(self) == 0:
-            return 'Empty'
-        else:
-            return " -> ".join([str(node) for node in self])
+        return " -> ".join([str(node) for node in self])
 
     def ver(self, p):
         return self[p].value

@@ -31,12 +31,11 @@ def fromListToDll(lista_normal) -> DoublyLinkedList:
     ret.size = len(lista_normal)
     return ret
 
-def fromDllToList(dll):
-    current_node = dll.head
+def fromllToList(ll):
+    current_node = ll.head
     ret = []
-    while current_node is not None:
+    for current_node in ll:
         ret.append(current_node.value)
-        current_node = current_node.next
     return ret
 
 def fromListToCll(lista_normal) -> CircularLinkedList:
@@ -167,26 +166,48 @@ def remTest(lista_normal, item):# item tem que estar na lista
     dll1.rem(item)
     lista_normal.remove(item)
 
-    dll1 = fromDllToList(dll1)
+    dll1 = fromllToList(dll1)
     return dll1 == lista_normal
 
-def limparTest(lista_normal):
-    dll1 = fromListToDll(lista_normal)
+def limparTest(lista_normal, linkedListType = 'dll'):
+    if linkedListType == 'cll':
+        cll1 = fromListToCll(lista_normal)
+        cll1.limpar()
+        lista_comp = fromllToList(cll1)
+        return lista_comp == []
 
+    dll1 = fromListToDll(lista_normal)
     dll1.limpar()
 
-    lista_comp = fromDllToList(dll1)
+    lista_comp = fromllToList(dll1)
 
     return lista_comp == []
 
-def vaziaTest(lista_normal):
+def vaziaTest(lista_normal, linkedListType = 'dll'):
+    if linkedListType == 'cll':
+        cll1 = fromListToCll(lista_normal)
+        lst1 = fromllToList(cll1)
+        cll2 = CircularLinkedList()
+
+        return (cll1.vazia() == (len(lst1) == 0)) and (cll2.vazia())
+
     dll1 = fromListToDll(lista_normal)
-    lst1 = fromDllToList(dll1)
+    lst1 = fromllToList(dll1)
 
     dll2 = DoublyLinkedList()
     return (dll1.vazia() == (len(lst1) == 0)) and (dll2.vazia())
 
-def ordenarTest(lista_normal):
+def ordenarTest(lista_normal, linkedListType = 'dll'):
+    if linkedListType == 'dll':
+        cll1 = fromListToCll(lista_normal)
+        cll2 = fromListToCll(lista_normal)
+
+        lista_normal.sort()
+        cll1.ordenar('b')
+        cll2.ordenar('m')
+
+        return fromllToList(cll1) == lista_normal == fromllToList(cll2)
+
     dll1 = fromListToDll(lista_normal)
     dll2 = fromListToDll(lista_normal)
 
@@ -194,7 +215,7 @@ def ordenarTest(lista_normal):
     dll1.ordenar('b')
     dll2.ordenar('m')
 
-    return fromDllToList(dll1) == lista_normal == fromDllToList(dll2)
+    return fromllToList(dll1) == lista_normal == fromllToList(dll2)
 
 def binarySearchTest(lista_normal, item):
     dll1 = fromListToDll(lista_normal)
@@ -249,8 +270,10 @@ if __name__ == "__main__":
     test = {'ins(item)': insTest(lst_norm, 'cll'),
             'len()': lenTest(lst_norm, 'cll'),
             'mostrar()': mostrarTest(lst_norm, 'cll'),
-            'existe(item)': existeTest(lst_norm, 'cll')}
-
+            'existe(item)': existeTest(lst_norm, 'cll'),
+            'limpar()': limparTest(lst_norm, 'cll'),
+            'vazia()': vaziaTest(lst_norm, 'cll'),
+            'order()': ordenarTest(lst_norm, 'cll')}
 
     for i in test:
         print(f'{i} --> {test[i]}')

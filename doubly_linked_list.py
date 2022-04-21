@@ -77,6 +77,8 @@ class DoublyLinkedList(LinkedList):  # noqa
                 return self.tail.move_n_times_left(-p - 1)
 
     def __str__(self):
+        if self.head is None:
+            return 'Empty'
         return " <-> ".join([str(node) for node in self])
 
     def append(self, value):

@@ -2,6 +2,7 @@ from typing import Literal
 
 from doubly_linked_list import DoublyLinkedList, DoublyLinkedNode
 from circular_linked_list import CircularLinkedList
+from base_classes import LinkedNode
 
 #Objects and variables that will be used specifically on this test (can be changed)
 lst_norm = [1, 2, 3, 4]# list
@@ -35,6 +36,22 @@ def fromDllToList(dll):
         ret.append(current_node.value)
         current_node = current_node.next
     return ret
+
+def fromListToCll(lista_normal) -> CircularLinkedList:
+    ret = CircularLinkedList()
+    if len(lista_normal) == 0:
+        return ret
+    if len(lista_normal) == 1:
+        ret.head = ret.tail = LinkedNode(lista_normal[0])
+        ret.size = 1
+        ret.head.next = ret.tail
+        return ret
+    ret.head = current_node = LinkedNode(lista_normal[0])
+    for elem in lista_normal[1:]:
+        current_node.next = current_node = LinkedNode(elem)
+    ret.tail = current_node
+    ret.tail.next = ret.head
+    ret.size = len(lista_normal)
 
 # test functions
 def insTest(lista_normal):

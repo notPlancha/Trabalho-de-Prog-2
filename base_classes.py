@@ -48,7 +48,6 @@ class LinkedNode:
         while currentNode is not None:
             yield currentNode
             currentNode = currentNode.next
-        raise StopIteration
 class LinkedList:
     def __init__(self):
         self.head = None
@@ -57,7 +56,8 @@ class LinkedList:
 
     def __iter__(self) -> LinkedNode:
         if self.size <= 1:
-            return iter([self.head])
+            yield self.head
+            return
         current_node = self.head
         while current_node is not self.tail and current_node is not None:
             yield current_node
@@ -86,11 +86,9 @@ class LinkedList:
         print(self)
 
     def __str__(self):
+        # TODO test
         if len(self) == 0:
             return 'Empty'
-
-        if len(self) == 1:
-            return f'{self.head.value}'
         else:
             return " -> ".join([str(node) for node in self])
 
@@ -131,19 +129,17 @@ class LinkedList:
         retHead = currentNode = LinkedNode(0)
         while True:
             if pointera.value > pointerb.value:
-                currentNode = currentNode.insertNext(pointera.value, listWarning=False)
-                if pointera.next is None:
-                    for i in pointerb:
-                        currentNode = currentNode.insertNext(i.value)
-                    return retHead.next, currentNode, a.size + b.size
-                else:
-                    pointera = pointera.next
+                pointera, pointerb = pointerb, pointera
+                a, b = b, a
+            currentNode = currentNode.insertNext(pointera.value, listWarning=False)
+            if pointera.next is None or pointera is a.tail:
+                for i in pointerb:
+                    currentNode = currentNode.insertNext(i.value, listWarning=False)
+                    if i is b.tail:
+                        break
+                return retHead.next, currentNode, a.size + b.size
             else:
-                currentNode = currentNode.insertNext(pointerb.value, listWarning=False)
-                if pointerb.next is None:
-                    for i in pointera:
-                        currentNode = currentNode.insertNext(i.value, listWarning=False)
-                    return retHead.next, currentNode, a.size + b.size
+                pointera = pointera.next
     def mergeSort(self, isCircular = False, isDoublyLinked = False):
         #TODO test e verifiar se é preciso os trues e falses
         if isCircular: #verificar se é preciso
@@ -158,7 +154,7 @@ class LinkedList:
         b = type(self)()
         b.head = mid[0].next
         b.tail = self.tail
-        b.size = self.size - mid[1]
+        b.size = self.size - mid[1] - 1
 
         a.mergeSort()
         b.mergeSort()
@@ -201,10 +197,11 @@ class LinkedList:
     def findMiddle(self, startPoint: Tuple[LinkedNode, int] = None,
                    endPoint: Tuple[LinkedNode, int] = None) -> Tuple[LinkedNode, int]:
         # TODO test
+
         if startPoint is None: startPoint = (self.head, 0)
         if endPoint is None: endPoint = (self.tail, self.size - 1)
         count = endPoint[1] - startPoint[1]
-        return [startPoint[0].move_n_times_right(count // 2), (count // 2) + startPoint[1]]  # TODO check
+        return startPoint[0].move_n_times_right(count // 2), (count // 2) + startPoint[1]  # TODO check
 
     def findMiddleNode(self, startNode = None):
         warnings.warn("Depricated, use findMiddle Instead")

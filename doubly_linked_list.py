@@ -211,19 +211,8 @@ class DoublyLinkedList(LinkedList):  # noqa
 
 if __name__ == "__main__": #TODO remove this from final
     print("Local tests")
-    def temp():
-        from Testes_ao_codigo import fromDllToList, fromListToDll
+    from Testes_ao_codigo import fromListToDll
 
-        lista_teste = [8,2,4,36,3,14,15,1]
-        dll1 = fromListToDll(lista_teste)
-        dll1.bubbleSort()
-        list_org = fromDllToList(dll1)
-        print(list_org)
-        print(sorted(lista_teste))
-
-    from Testes_ao_codigo import fromDllToList, fromListToDll
-
-    lista_teste = [8,2,4,36,3,14,15,1]
-    dll1 = fromListToDll(lista_teste)
-    print(dll1[1])
-    print(dll1.findMiddle(startPoint=(dll1[2], 2))[0])
+    dll = fromListToDll([2,3,4,7654,5,2,3,2,42,1,2])
+    dll.mergeSort()
+    print(dll)

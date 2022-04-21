@@ -5,7 +5,10 @@ from base_classes import LinkedNode, LinkedList
 
 class CircularLinkedList(LinkedList):  # noqa
     def __str__(self):
-        return super().__str__() + " -> " + str(self.head) + "-> ..."
+        #todo test
+        if self.head is None:
+            return 'Empty'
+        return super().__str__() + " -> " + str(self.head.value) + "-> ..."
 
     def ordenar(self, which: Literal['m', 'q', 'i', 'b'] = "m"):  # TODO mudar para o mais efetivo
         return super().ordenar(which)
@@ -21,6 +24,7 @@ class CircularLinkedList(LinkedList):  # noqa
         self.size += 1
 
     def prepend(self, item):
+        #TODO test
         if self.size == 0:
             return self.append(item)
         else:
@@ -68,8 +72,4 @@ class CircularLinkedList(LinkedList):  # noqa
 
 if __name__ == "__main__":
     # tests TODO
-
-    cll = CircularLinkedList()
-    cll.append(6)
-    cll.append(7)
-    cll.append(4)
+    pass

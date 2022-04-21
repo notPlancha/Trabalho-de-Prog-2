@@ -38,16 +38,16 @@ class DoublyLinkedNode(LinkedNode):
             raise DoublyLinkedNode.NoPrev("Index out of range")
         DoublyLinkedNode.swap(self, self.prev)
 
-    def insertNext(self, value):
-        # TODO test ty
+    def insertNext(self, value, listWarning = True):
+        if listWarning: warnings.warn("InsertNext should not be used for linkedList manipulation unless used with caution")
         nod = DoublyLinkedNode(value, next=self.next, prev=self)
         if nod.next is not None:
             nod.next.prev = nod
         self.next = nod
         return nod
 
-    def insertPrev(self, value):
-        # TODO test ty
+    def insertPrev(self, value, listWarning = True):
+        if listWarning: warnings.warn("InsertNext should not be used for linkedList manipulation unless used with caution")
         nod = DoublyLinkedNode(value, next=self, prev=self.prev)
         if nod.prev is not None:
             nod.prev.next = nod
@@ -121,7 +121,7 @@ class DoublyLinkedList(LinkedList):  # noqa
                 self.tail = Prev
                 self.head = self.tail
 
-            NodeOfValue.disconect(Prev, Next)
+            NodeOfValue.disconect()
             self.size -= 1
             return
 
@@ -132,7 +132,7 @@ class DoublyLinkedList(LinkedList):  # noqa
             if Next is None:
                 self.tail = Prev
 
-            NodeOfValue.disconect(Prev, Next)
+            NodeOfValue.disconect()
             self.size -= 1
             return
 
@@ -140,7 +140,8 @@ class DoublyLinkedList(LinkedList):  # noqa
             return False
 
     def removeAll(self, value):
-        while self.rem(value) != False:
+        #removes all of value
+        while self.rem(value) is False:
             continue
         return
 
@@ -164,6 +165,7 @@ class DoublyLinkedList(LinkedList):  # noqa
         return None, -1
 
     def merge(self, node1, node2):
+        #TODO see if is used
         if node1 == None:
             return node2
         if node2 == None:
@@ -180,6 +182,7 @@ class DoublyLinkedList(LinkedList):  # noqa
         return resultado
 
     def mergeSortOld(self, start = None):
+        #TODO remove?
         warnings.warn("Depricated, use mergeSort instead", DeprecationWarning)
         if start is None:
             starts = self.head
@@ -191,29 +194,17 @@ class DoublyLinkedList(LinkedList):  # noqa
 
         meio.next = None
 
-        Left = self.mergeSort(start)
-        Right = self.mergeSort(nextToMeio)
+        Left = self.mergeSortOld(start)
+        Right = self.mergeSortOld(nextToMeio)
 
         sortedList = self.merge(Left, Right)
 
         return sortedList
 
-    def mergeSort(self):
+    def mergeSort(self, **kwargs):
+        #kwargs just so it can pass the others, while still restricting them
+        #TODO see this func is needed
         return super().mergeSort(isCircular=False, isDoublyLinked=True)
-
-    def bubbleSort(self):
-        # TODO test it ty
-        is_sorted = False
-        lastOrdered = None
-        while not is_sorted:
-            is_sorted = True
-            current_node = self.head
-            while current_node.next is not None and current_node.next != lastOrdered:
-                if current_node.value > current_node.next.value:
-                    DoublyLinkedNode.swap(current_node, current_node.next)
-                    is_sorted = False
-
-                current_node = current_node.next
 
     def ordenar(self, which: Literal['m', 'q', 'i', 'b'] = "m"):  # TODO mudar para o mais efetivo
         return super().ordenar(which)

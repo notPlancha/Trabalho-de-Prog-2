@@ -22,7 +22,6 @@ class LinkedNode:
         else: return self.value == other
 
     def move_n_times_right(self, n):
-        #TODO test this and the left one ty
         current_node : LinkedNode = self
         for i in range(n):
             if current_node.next is None:
@@ -39,8 +38,8 @@ class LinkedNode:
         else:
             return f"{self.value} ->"
 
-    def insertNext(self, value):
-        #TODO test ty
+    def insertNext(self, value, listWarning = True):
+        if listWarning: warnings.warn("InsertNext should not be used for linkedList manipulation unless used with caution")
         self.next = LinkedNode(value, self.next)
         return self.next
 
@@ -87,7 +86,13 @@ class LinkedList:
         print(self)
 
     def __str__(self):
-        return " -> ".join([str(node) for node in self])
+        if len(self) == 0:
+            return 'Empty'
+
+        if len(self) == 1:
+            return f'{self.head.value}'
+        else:
+            return " -> ".join([str(node) for node in self])
 
     def ver(self, p):
         return self[p].value
@@ -126,7 +131,7 @@ class LinkedList:
         retHead = currentNode = LinkedNode(0)
         while True:
             if pointera.value > pointerb.value:
-                currentNode = currentNode.insertNext(pointera.value)
+                currentNode = currentNode.insertNext(pointera.value, listWarning=False)
                 if pointera.next is None:
                     for i in pointerb:
                         currentNode = currentNode.insertNext(i.value)
@@ -134,13 +139,13 @@ class LinkedList:
                 else:
                     pointera = pointera.next
             else:
-                currentNode = currentNode.insertNext(pointerb.value)
+                currentNode = currentNode.insertNext(pointerb.value, listWarning=False)
                 if pointerb.next is None:
                     for i in pointera:
-                        currentNode = currentNode.insertNext(i.value)
+                        currentNode = currentNode.insertNext(i.value, listWarning=False)
                     return retHead.next, currentNode, a.size + b.size
     def mergeSort(self, isCircular = False, isDoublyLinked = False):
-        #TODO test
+        #TODO test e verifiar se é preciso os trues e falses
         if isCircular: #verificar se é preciso
             self.tail = None
         if self.size == 1:

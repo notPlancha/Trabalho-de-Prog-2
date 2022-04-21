@@ -8,7 +8,7 @@ class CircularLinkedList(LinkedList):  # noqa
         #todo test
         if self.head is None:
             return 'Empty'
-        return super().__str__() + " -> " + str(self.head.value) + "-> ..."
+        return super().__str__() + " -> / " + str(self.head.value) + "-> ... "
 
     def ordenar(self, which: Literal['m', 'q', 'i', 'b'] = "m"):  # TODO mudar para o mais efetivo
         return super().ordenar(which)
@@ -54,7 +54,7 @@ class CircularLinkedList(LinkedList):  # noqa
             prev = i
         return False
 
-    def binarySearch(self, item, order=False) -> Tuple[LinkedNode | None, int]: # TODO change to True default
+    def binarySearch(self, item, order=True) -> Tuple[LinkedNode | None, int]:
         #TODO test
         if order:
             self.ordenar()

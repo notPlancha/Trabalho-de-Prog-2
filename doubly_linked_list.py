@@ -211,8 +211,3 @@ class DoublyLinkedList(LinkedList):  # noqa
 
 if __name__ == "__main__": #TODO remove this from final
     print("Local tests")
-    from Testes_ao_codigo import fromListToDll
-
-    dll = fromListToDll([2,3,4,7654,5,2,3,2,42,1,2])
-    dll.mergeSort()
-    print(dll)

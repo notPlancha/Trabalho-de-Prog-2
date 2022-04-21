@@ -145,7 +145,7 @@ class LinkedList:
                 pointera = pointera.next
     def mergeSort(self, isCircular = False, isDoublyLinked = False):
         #TODO test e verifiar se é preciso os trues e falses
-        if isCircular: #verificar se é preciso
+        if isCircular: #TODO verificar se é preciso
             self.tail = None
         if self.size == 1:
             return
@@ -166,7 +166,7 @@ class LinkedList:
         self.head = result[0]
         self.tail = result[1]
         self.size = result[2]
-        if isCircular: # verificar se é preciso
+        if isCircular:# verificar se é preciso
             self.tail.next = self.head
 
     def quickSort(self):

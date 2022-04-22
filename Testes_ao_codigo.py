@@ -240,12 +240,29 @@ def ordenarTest(lista_normal, linkedListType = 'dll'):
     return fromllToList(dll1) == lista_normal == fromllToList(dll2)
 
 
-def binarySearchTest(lista_normal, item):
-    pass
+def binarySearchTest(lista_normal, item, linkedListType = 'dll'):
+    if linkedListType == 'cll':
+        cll1 = fromListToCll(lista_normal)
+        pos = 0
+
+        for element in lista_normal:
+            if element == item:
+                return cll1.binarySearch(item)[1] == pos
+            pos += 1
+        return cll1.binarySearch(item)[1] == -1
+
+    dll1 = fromListToDll(lista_normal)
+    pos = 0
+    for element in lista_normal:
+        if element == item:
+            return dll1.binarySearch(item)[1] == pos
+        pos += 1
+    return dll1.binarySearch(item)[1] == -1
+
 
 if __name__ == "__main__":
     print('Doubly Linked List Tests', end='\n\n')
-    '''
+'''  
     n = 1
     for lst_norm in [
         [1,2,3,4,5],
@@ -255,8 +272,7 @@ if __name__ == "__main__":
 
         print(n, end='\n\n')
     n += 1
-    '''
-
+'''
     test = {'ins(item)': insTest(lst_norm),
             'len()': lenTest(lst_norm),
             'mostrar()': mostrarTest(lst_norm),
@@ -265,8 +281,8 @@ if __name__ == "__main__":
             'rem(item)': remTest(lst_norm, vlr),
             'limpar()': limparTest(lst_norm),
             'vazia()': vaziaTest(lst_norm),
-            'order()': ordenarTest(lst_norm)}
-            #'binarySearch(item)': binarySearchTest(lst_norm, vlr)}
+            'order()': ordenarTest(lst_norm),
+            'binarySearch(item)': binarySearchTest(lst_norm, vlr)}
 
     for i in test:
         print(f'{i} --> {test[i]}')
@@ -295,7 +311,8 @@ if __name__ == "__main__":
             'rem(item)': remTest(lst_norm, vlr, 'cll'),
             'limpar()': limparTest(lst_norm, 'cll'),
             'vazia()': vaziaTest(lst_norm, 'cll'),
-            'order()': ordenarTest(lst_norm, 'cll')}
+            'order()': ordenarTest(lst_norm, 'cll'),
+            'binarySearch(item)': binarySearchTest(lst_norm, vlr, 'cll')}
 
     for i in test:
         print(f'{i} --> {test[i]}')

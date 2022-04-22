@@ -74,8 +74,4 @@ class CircularLinkedList(LinkedList):  # noqa
             return None, -1
 
     def mergeSort(self, **kwargs):
-        return super().mergeSort(isCircular=True, isDoublyLinked=False)
-
-
-if __name__ == "__main__":
-    from Testes_ao_codigo import fromListToCll
+        return super(CircularLinkedList, self).mergeSort(isCircular=True)

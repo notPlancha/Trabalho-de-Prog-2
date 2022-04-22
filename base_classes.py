@@ -121,7 +121,7 @@ class LinkedList:
             raise ValueError("Invalid argument")
 
     @staticmethod
-    def sortedMerge(a,b, isDoublyLinked = False) -> Tuple[LinkedNode, LinkedNode, int]:
+    def sortedMerge(a,b) -> Tuple[LinkedNode, LinkedNode, int]:
         #TODO test
         pointera = a.head
         pointerb = b.head
@@ -139,7 +139,7 @@ class LinkedList:
                 return retHead.next, currentNode, a.size + b.size
             else:
                 pointera = pointera.next
-    def mergeSort(self, isCircular = False, isDoublyLinked = False):
+    def mergeSort(self, isCircular = False):
         #TODO test e verifiar se é preciso os trues e falses
         if isCircular: #TODO verificar se é preciso
             self.tail.next = None

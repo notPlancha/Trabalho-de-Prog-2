@@ -6,7 +6,7 @@ from base_classes import LinkedNode, LinkedList
 
 class DoublyLinkedNode(LinkedNode):
     def __init__(self, value, next=None, prev=None):
-        super().__init__(value, next)
+        super(DoublyLinkedNode, self).__init__(value, next)
         self.prev: DoublyLinkedNode | None = prev
 
     def move_n_times_left(self, n):
@@ -72,7 +72,7 @@ class DoublyLinkedNode(LinkedNode):
 class DoublyLinkedList(LinkedList):  # noqa
     def __getitem__(self, p):
         if p >= 0:
-            return super().__getitem__(p)
+            return super(DoublyLinkedList, self).__getitem__(p)
         else:
             if -p > self.size:
                 raise IndexError("Index out of range")
@@ -104,8 +104,6 @@ class DoublyLinkedList(LinkedList):  # noqa
     def ins(self, item):
         return self.append(item)
 
-    def first(self, value) -> DoublyLinkedNode | None:
-        return super().first(value)
 
     # true if it found one
     def removeFirst(self, value) -> bool:
@@ -206,16 +204,8 @@ class DoublyLinkedList(LinkedList):  # noqa
 
         return sortedList
 
-    def mergeSort(self, **kwargs):
-        # kwargs just so it can pass the others, while still restricting them
-        # TODO see this func is needed
-        return super().mergeSort(isCircular=False, isDoublyLinked=True)
-
-    def ordenar(self, which: Literal['m', 'q', 'i', 'b'] = "m"):  # TODO mudar para o mais efetivo
-        return super().ordenar(which)
-
     @staticmethod
-    def sortedMerge(a, b, isDoublyLinked=False) -> Tuple[LinkedNode, LinkedNode, int]:
+    def sortedMerge(a, b) -> Tuple[LinkedNode, LinkedNode, int]:
         pointera = a.head
         pointerb = b.head
         retHead = currentNode = DoublyLinkedNode(0)

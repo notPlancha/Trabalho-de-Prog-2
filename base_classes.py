@@ -108,7 +108,7 @@ class LinkedList:
         return ret
 
     # sort a linkedList
-    def ordenar(self, which: Literal['m', 'q', 'i', 'b']):
+    def ordenar(self, which: Literal['m', 'q', 'i', 'b'] = 'm'):#Todo chage default to most effective
         if which == 'm':
             self.mergeSort()
             return

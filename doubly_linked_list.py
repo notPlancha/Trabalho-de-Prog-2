@@ -151,7 +151,7 @@ class DoublyLinkedList(LinkedList):  # noqa
     def rem(self, value):
         return self.removeFirst(value)
 
-    def binarySearch(self, item, order=False) -> Tuple[DoublyLinkedNode | None, int]:  # TODO change to True default
+    def binarySearch(self, item, order=True) -> Tuple[DoublyLinkedNode | None, int]:  # TODO change to True default
         # TODO test it ty
         if order:
             self.ordenar()

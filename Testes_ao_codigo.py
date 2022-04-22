@@ -63,45 +63,44 @@ def fromListToCll(lista_normal) -> CircularLinkedList:
 
 
 # test functions
-def insTest(lista_normal, linkedListType='dll'):
+def insTest(lista_normal, linkedListType = 'dll'):
     lista_comp = []
 
-    match linkedListType:
-        case 'cll':
-            cll1 = CircularLinkedList()
+    if linkedListType == 'cll':
+        cll1 = CircularLinkedList()
 
-            for element_norm in lista_normal:
-                cll1.ins(element_norm)
+        for element_norm in lista_normal:
+            cll1.ins(element_norm)
 
-            current_node = cll1.head
-            i = 0
-            while i != cll1.len():
-                lista_comp.append(current_node.value)
-                current_node = current_node.next
-                i += 1
+        current_node = cll1.head
+        i = 0
+        while i != cll1.len():
+            lista_comp.append(current_node.value)
+            current_node = current_node.next
+            i += 1
 
-            return lista_comp == lista_normal
+        return lista_comp == lista_normal
 
-        case _:
-            lista_comp_rev = []
-            dll1 = DoublyLinkedList()
+    else:
+        lista_comp_rev = []
+        dll1 = DoublyLinkedList()
 
-            for element_norm in lista_normal:
-                dll1.ins(element_norm)
+        for element_norm in lista_normal:
+            dll1.ins(element_norm)
 
-            current_node = dll1.tail
-            while current_node is not None:
-                lista_comp_rev.append(current_node.value)
-                current_node = current_node.prev
+        current_node = dll1.tail
+        while current_node is not None:
+            lista_comp_rev.append(current_node.value)
+            current_node = current_node.prev
 
-            current_node = dll1.head
+        current_node = dll1.head
 
-            while current_node is not None:
-                lista_comp.append(current_node.value)
-                current_node = current_node.next
+        while current_node is not None:
+            lista_comp.append(current_node.value)
+            current_node = current_node.next
 
-            lista_comp_rev.reverse()
-            return lista_comp == lista_comp_rev == lista_normal
+        lista_comp_rev.reverse()
+        return lista_comp == lista_comp_rev == lista_normal
 
 
 def lenTest(lista_normal, linkedListType='dll'):
@@ -220,7 +219,7 @@ def vaziaTest(lista_normal, linkedListType='dll'):
     return (dll1.vazia() == (len(lst1) == 0)) and (dll2.vazia())
 
 
-def ordenarTest(lista_normal, linkedListType='dll'):
+def ordenarTest(lista_normal, linkedListType = 'dll'):
     if linkedListType == 'dll':
         cll1 = fromListToCll(lista_normal)
         cll2 = fromListToCll(lista_normal)
@@ -241,13 +240,29 @@ def ordenarTest(lista_normal, linkedListType='dll'):
     return fromllToList(dll1) == lista_normal == fromllToList(dll2)
 
 
-def binarySearchTest(lista_normal, item):
-    pass
+def binarySearchTest(lista_normal, item, linkedListType = 'dll'):
+    if linkedListType == 'cll':
+        cll1 = fromListToCll(lista_normal)
+        pos = 0
+
+        for element in lista_normal:
+            if element == item:
+                return cll1.binarySearch(item)[1] == pos
+            pos += 1
+        return cll1.binarySearch(item)[1] == -1
+
+    dll1 = fromListToDll(lista_normal)
+    pos = 0
+    for element in lista_normal:
+        if element == item:
+            return dll1.binarySearch(item)[1] == pos
+        pos += 1
+    return dll1.binarySearch(item)[1] == -1
 
 
 if __name__ == "__main__":
     print('Doubly Linked List Tests', end='\n\n')
-    '''
+'''  
     n = 1
     for lst_norm in [
         [1,2,3,4,5],
@@ -257,8 +272,7 @@ if __name__ == "__main__":
 
         print(n, end='\n\n')
     n += 1
-    '''
-
+'''
     test = {'ins(item)': insTest(lst_norm),
             'len()': lenTest(lst_norm),
             'mostrar()': mostrarTest(lst_norm),
@@ -297,7 +311,8 @@ if __name__ == "__main__":
             'rem(item)': remTest(lst_norm, vlr, 'cll'),
             'limpar()': limparTest(lst_norm, 'cll'),
             'vazia()': vaziaTest(lst_norm, 'cll'),
-            'order()': ordenarTest(lst_norm, vlr, 'cll')}
+            'order()': ordenarTest(lst_norm, 'cll'),
+            'binarySearch(item)': binarySearchTest(lst_norm, vlr, 'cll')}
 
     for i in test:
         print(f'{i} --> {test[i]}')

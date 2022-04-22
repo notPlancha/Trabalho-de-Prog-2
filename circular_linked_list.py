@@ -3,6 +3,7 @@ from typing import Literal, Tuple
 
 from base_classes import LinkedNode, LinkedList
 
+
 class CircularLinkedList(LinkedList):  # noqa
     def __str__(self):
         if self.head is None:
@@ -26,7 +27,7 @@ class CircularLinkedList(LinkedList):  # noqa
         return self.append(item)
 
     def prepend(self, item):
-        #TODO test
+        # TODO test
         if self.size == 0:
             return self.append(item)
         else:
@@ -53,9 +54,8 @@ class CircularLinkedList(LinkedList):  # noqa
     def rem(self, item):
         return self.RemoveFirst(item)
 
-
     def binarySearch(self, item, order=True) -> Tuple[LinkedNode | None, int]:
-        #TODO test
+        # TODO test
         if order:
             self.ordenar()
         start = (self.head, 0)
@@ -64,20 +64,18 @@ class CircularLinkedList(LinkedList):  # noqa
             mid = self.findMiddle(start, end)
             if mid[0].value == item:
                 return mid
-            elif mid[0].value > item:
+            elif mid[0].value < item:
                 start = (mid[0].next, mid[1] + 1)
             else:
                 end = mid
-        return None, -1
+        if start[0] == item:
+            return start
+        else:
+            return None, -1
 
     def mergeSort(self, **kwargs):
         return super().mergeSort(isCircular=True, isDoublyLinked=False)
 
 
-
 if __name__ == "__main__":
     from Testes_ao_codigo import fromListToCll
-    cll = fromListToCll([10, 9, 8, 7, 6, 5, 4, 3, 2, 1])
-    print(cll)
-    cll.mergeSort()
-    print(cll)

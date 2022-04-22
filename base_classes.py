@@ -176,7 +176,7 @@ class LinkedList:
         while not is_sorted:
             is_sorted = True
             current_node = self.head
-            while current_node.next is not None:
+            while current_node.next is not None and current_node is not self.tail:
                 if current_node.value > current_node.next.value:
                     LinkedNode.swap(current_node, current_node.next)
                     is_sorted = False

@@ -238,5 +238,5 @@ if __name__ == "__main__":
     from Testes_ao_codigo import fromListToDll
 
     dll = fromListToDll([10, 9, 8, 7, 6, 5, 4, 3, 2, 1])
-    dll.mergeSort()
+    dll.bubbleSort()
     print(dll.tail.prev)

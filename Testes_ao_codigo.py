@@ -171,9 +171,11 @@ def verTest(lista_normal, linkedListType='dll'):
 
 def remTest(lista_normal, item):  # item tem que estar na lista
     dll1 = fromListToDll(lista_normal)
+    try:
+        lista_normal.remove(item)
+    except ValueError:
+        return dll1.rem(item) is False
     dll1.rem(item)
-    lista_normal.remove(item)
-
     dll1 = fromllToList(dll1)
     return dll1 == lista_normal
 

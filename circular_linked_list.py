@@ -27,7 +27,6 @@ class CircularLinkedList(LinkedList):  # noqa
         return self.append(item)
 
     def prepend(self, item):
-        # TODO test
         if self.size == 0:
             return self.append(item)
         else:
@@ -53,25 +52,6 @@ class CircularLinkedList(LinkedList):  # noqa
 
     def rem(self, item):
         return self.RemoveFirst(item)
-
-    def binarySearch(self, item, order=True) -> Tuple[LinkedNode | None, int]:
-        # TODO test
-        if order:
-            self.ordenar()
-        start = (self.head, 0)
-        end = (self.tail, self.size - 1)
-        while end[0] != start[0] or end[0] is None or start[0] is None:  # not sure of this line
-            mid = self.findMiddle(start, end)
-            if mid[0].value == item:
-                return mid
-            elif mid[0].value < item:
-                start = (mid[0].next, mid[1] + 1)
-            else:
-                end = mid
-        if start[0] == item:
-            return start
-        else:
-            return None, -1
 
     def mergeSort(self, **kwargs):
         return super(CircularLinkedList, self).mergeSort(isCircular=True)

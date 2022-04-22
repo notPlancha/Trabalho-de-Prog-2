@@ -104,6 +104,8 @@ class DoublyLinkedList(LinkedList):  # noqa
     def ins(self, item):
         return self.append(item)
 
+    def first(self, value) -> DoublyLinkedNode | None:
+        return super(DoublyLinkedList, self).first(value)
 
     # true if it found one
     def removeFirst(self, value) -> bool:
@@ -112,7 +114,7 @@ class DoublyLinkedList(LinkedList):  # noqa
                 return self.limpar()
             return False
 
-        NodeOfValue = self.first(value)
+        NodeOfValue: DoublyLinkedNode = self.first(value)
         Prev = NodeOfValue.prev
         Next = NodeOfValue.next
 
@@ -126,7 +128,7 @@ class DoublyLinkedList(LinkedList):  # noqa
 
             NodeOfValue.disconect()
             self.size -= 1
-            return
+            return True
 
         elif NodeOfValue is not None:
             if Prev is None:
@@ -137,7 +139,7 @@ class DoublyLinkedList(LinkedList):  # noqa
 
             NodeOfValue.disconect()
             self.size -= 1
-            return
+            return True
 
         else:
             return False
@@ -150,59 +152,6 @@ class DoublyLinkedList(LinkedList):  # noqa
 
     def rem(self, value):
         return self.removeFirst(value)
-
-    def binarySearch(self, item, order=False) -> Tuple[DoublyLinkedNode | None, int]:  # TODO change to True default
-        # TODO test it ty
-        if order:
-            self.ordenar()
-        start = (self.head, 0)
-        end = (self.tail, self.size - 1)
-        while end[0] != start[0] or end[0] is None or start[0] is None:  # not sure of this line
-            mid = self.findMiddle(start, end)
-            if mid[0].value == item:
-                return mid
-            elif mid[0].value > item:
-                start = (mid[0].next, mid[1] + 1)
-            else:
-                end = (mid[0].prev, mid[1] - 1)
-        return None, -1
-
-    def merge(self, node1, node2):
-        # TODO see if is used
-        if node1 == None:
-            return node2
-        if node2 == None:
-            return node1
-
-        if node1.value <= node2.value:
-            resultado = node1
-            resultado.next = self.merge(node1.next, node2)
-
-        else:
-            resultado = node2
-            resultado.next = self.merge(node1, node2.next)
-
-        return resultado
-
-    def mergeSortOld(self, start=None):
-        # TODO remove?
-        warnings.warn("Depricated, use mergeSort instead", DeprecationWarning)
-        if start is None:
-            starts = self.head
-        if start is None or start.next is None:
-            return start
-
-        meio = self.findMiddleNode(start)
-        nextToMeio = meio.next
-
-        meio.next = None
-
-        Left = self.mergeSortOld(start)
-        Right = self.mergeSortOld(nextToMeio)
-
-        sortedList = self.merge(Left, Right)
-
-        return sortedList
 
     @staticmethod
     def sortedMerge(a, b) -> Tuple[LinkedNode, LinkedNode, int]:
@@ -227,6 +176,6 @@ class DoublyLinkedList(LinkedList):  # noqa
 if __name__ == "__main__":
     from Testes_ao_codigo import fromListToDll
 
-    dll = fromListToDll([10, 9, 8, 7, 6, 5, 4, 3, 2, 1])
-    dll.bubbleSort()
-    print(dll.tail.prev)
+    dll = fromListToDll([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+
+    print(dll.binarySearch(5))

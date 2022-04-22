@@ -123,7 +123,7 @@ class LinkedList:
             raise ValueError("Invalid argument")
 
     @staticmethod
-    def sortedMerge(a,b, isDoublyLinked = False) -> Tuple[LinkedNode, LinkedNode, int]:
+    def sortedMerge(a,b) -> Tuple[LinkedNode, LinkedNode, int]:
         #TODO test
         pointera = a.head
         pointerb = b.head
@@ -141,10 +141,10 @@ class LinkedList:
                 return retHead.next, currentNode, a.size + b.size
             else:
                 pointera = pointera.next
-    def mergeSort(self, isCircular = False, isDoublyLinked = False):
+    def mergeSort(self, isCircular = False):
         #TODO test e verifiar se é preciso os trues e falses
         if isCircular: #TODO verificar se é preciso
-            self.tail = None
+            self.tail.next = None
         if self.size == 1:
             return
         mid = self.findMiddle()
@@ -178,7 +178,7 @@ class LinkedList:
         while not is_sorted:
             is_sorted = True
             current_node = self.head
-            while current_node.next is not None:
+            while current_node.next is not None and current_node is not self.tail:
                 if current_node.value > current_node.next.value:
                     LinkedNode.swap(current_node, current_node.next)
                     is_sorted = False

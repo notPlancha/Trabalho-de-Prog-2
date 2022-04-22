@@ -4,12 +4,13 @@ from doubly_linked_list import DoublyLinkedList, DoublyLinkedNode
 from circular_linked_list import CircularLinkedList
 from base_classes import LinkedNode
 
-#Doubly Linked List
+# Doubly Linked List
 
-#Objects and variables that will be used specifically on this test (can be changed)
-lst_norm = [4,3,2,1]# test normal list
-vlr = 3# value
-ind = 2# index (begins on 0)
+# Objects and variables that will be used specifically on this test (can be changed)
+lst_norm = [4, 3, 2, 1]  # test normal list
+vlr = 3  # value
+ind = 2  # index (begins on 0)
+
 
 def fromListToDll(lista_normal) -> DoublyLinkedList:
     if len(lista_normal) == 0:
@@ -31,12 +32,14 @@ def fromListToDll(lista_normal) -> DoublyLinkedList:
     ret.size = len(lista_normal)
     return ret
 
+
 def fromllToList(ll):
     current_node = ll.head
     ret = []
     for current_node in ll:
         ret.append(current_node.value)
     return ret
+
 
 def fromListToCll(lista_normal) -> CircularLinkedList:
     ret = CircularLinkedList()
@@ -58,8 +61,9 @@ def fromListToCll(lista_normal) -> CircularLinkedList:
     ret.size = len(lista_normal)
     return ret
 
+
 # test functions
-def insTest(lista_normal, linkedListType = 'dll'):
+def insTest(lista_normal, linkedListType='dll'):
     lista_comp = []
 
     match linkedListType:
@@ -99,7 +103,8 @@ def insTest(lista_normal, linkedListType = 'dll'):
             lista_comp_rev.reverse()
             return lista_comp == lista_comp_rev == lista_normal
 
-def lenTest(lista_normal, linkedListType = 'dll'):
+
+def lenTest(lista_normal, linkedListType='dll'):
     if linkedListType == 'cll':
         cll1 = fromListToCll(lista_normal)
         return len(lista_normal) == len(cll1) == cll1.len() == cll1.size
@@ -107,7 +112,8 @@ def lenTest(lista_normal, linkedListType = 'dll'):
     dll1 = fromListToDll(lista_normal)
     return len(lista_normal) == len(dll1) == dll1.len() == dll1.size
 
-def mostrarTest(lista_normal, linkedListType = 'dll'):
+
+def mostrarTest(lista_normal, linkedListType='dll'):
     if linkedListType == 'cll':
         cll1 = fromListToCll(lista_normal)
         lst1 = ""
@@ -126,9 +132,9 @@ def mostrarTest(lista_normal, linkedListType = 'dll'):
     return lst1 == dll1.mostrar()
 
 
-#this function searches for a certain value. It returns 0 if the value is not on the linked list,
-#otherwise it will return the position of the first element of the linkedlist that equals the given value
-def existeTest(lista_normal, linkedListType = 'dll'):
+# this function searches for a certain value. It returns 0 if the value is not on the linked list,
+# otherwise it will return the position of the first element of the linkedlist that equals the given value
+def existeTest(lista_normal, linkedListType='dll'):
     lst_string = ''
 
     for elemento in lista_normal:
@@ -147,7 +153,8 @@ def existeTest(lista_normal, linkedListType = 'dll'):
                 return False
         return True
 
-def verTest(lista_normal, linkedListType = 'dll'):
+
+def verTest(lista_normal, linkedListType='dll'):
     if linkedListType == 'cll':
         cll1 = fromListToCll(lista_normal)
         for i in range(len(lista_normal)):
@@ -161,8 +168,9 @@ def verTest(lista_normal, linkedListType = 'dll'):
             return False
     return True
 
+
 def remTest(lista_normal, item, linkedListType = 'dll'):  # item tem que estar na lista
-    if linkedListType == 'dll':
+    if linkedListType == 'cll':
         cll1 = fromListToCll(lista_normal)
         try:
             lista_normal.remove(item)
@@ -181,7 +189,9 @@ def remTest(lista_normal, item, linkedListType = 'dll'):  # item tem que estar n
     dll1 = fromllToList(dll1)
     return dll1 == lista_normal
 
-def limparTest(lista_normal, linkedListType = 'dll'):
+
+
+def limparTest(lista_normal, linkedListType='dll'):
     if linkedListType == 'cll':
         cll1 = fromListToCll(lista_normal)
         cll1.limpar()
@@ -195,7 +205,8 @@ def limparTest(lista_normal, linkedListType = 'dll'):
 
     return lista_comp == []
 
-def vaziaTest(lista_normal, linkedListType = 'dll'):
+
+def vaziaTest(lista_normal, linkedListType='dll'):
     if linkedListType == 'cll':
         cll1 = fromListToCll(lista_normal)
         lst1 = fromllToList(cll1)
@@ -209,9 +220,10 @@ def vaziaTest(lista_normal, linkedListType = 'dll'):
     dll2 = DoublyLinkedList()
     return (dll1.vazia() == (len(lst1) == 0)) and (dll2.vazia())
 
-'''
+
 
 def ordenarTest(lista_normal, linkedListType = 'dll'):
+
     if linkedListType == 'dll':
         cll1 = fromListToCll(lista_normal)
         cll2 = fromListToCll(lista_normal)
@@ -231,14 +243,15 @@ def ordenarTest(lista_normal, linkedListType = 'dll'):
 
     return fromllToList(dll1) == lista_normal == fromllToList(dll2)
 
+
 def binarySearchTest(lista_normal, item):
     dll1 = fromListToDll(lista_normal)
     pass
 '''
 
-print('Doubly Linked List Tests', end='\n\n')
 
 if __name__ == "__main__":
+    print('Doubly Linked List Tests', end='\n\n')
     '''
     n = 1
     for lst_norm in [
@@ -266,7 +279,7 @@ if __name__ == "__main__":
     for i in test:
         print(f'{i} --> {test[i]}')
 
-#Circular Linked List
+    # Circular Linked List
 
     '''
     n = 1
@@ -289,11 +302,11 @@ if __name__ == "__main__":
             'ver(p)': verTest(lst_norm, 'cll'),
             'rem(item)': remTest(lst_norm, vlr, 'cll'),
             'limpar()': limparTest(lst_norm, 'cll'),
-            'vazia()': vaziaTest(lst_norm, 'cll')}
-            #'order()': ordenarTest(lst_norm, 'cll')}
+            'vazia()': vaziaTest(lst_norm, 'cll'),
+            'order()': ordenarTest(lst_norm, 'cll')}
 
     for i in test:
         print(f'{i} --> {test[i]}')
 
-cll = fromListToCll([1,20,4,5])# Todo erase this in case i forget
-dll = fromListToDll([4,3,2,1]) # Todo erase this in case i forget
+    cll = fromListToCll([1, 20, 4, 5])  # Todo erase this in case i forget
+    dll = fromListToDll([4, 3, 2, 1])  # Todo erase this in case i forget

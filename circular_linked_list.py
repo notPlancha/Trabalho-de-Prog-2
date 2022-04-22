@@ -44,9 +44,10 @@ class CircularLinkedList(LinkedList):  # noqa
                     # data is in head
                     self.head = self.head.next
                     self.tail.next = self.head
+                    return
                 else:
                     prev.next = i.next
-                return
+                    return
             prev = i
         return False
 

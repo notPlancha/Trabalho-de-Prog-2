@@ -111,12 +111,14 @@ class LinkedList:
     def ordenar(self, which: Literal['m', 'q', 'i', 'b']):
         if which == 'm':
             self.mergeSort()
+            return
         elif which == 'q':
             return False
         elif which == 'i':
             return False
         elif which == 'b':
             self.bubbleSort()
+            return
         else:
             raise ValueError("Invalid argument")
 

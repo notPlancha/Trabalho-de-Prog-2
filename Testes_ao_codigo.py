@@ -205,7 +205,6 @@ def limparTest(lista_normal, linkedListType='dll'):
 
     return lista_comp == []
 
-
 def vaziaTest(lista_normal, linkedListType='dll'):
     if linkedListType == 'cll':
         cll1 = fromListToCll(lista_normal)
@@ -245,9 +244,8 @@ def ordenarTest(lista_normal, linkedListType = 'dll'):
 
 
 def binarySearchTest(lista_normal, item):
-    dll1 = fromListToDll(lista_normal)
     pass
-'''
+
 
 
 if __name__ == "__main__":
@@ -262,8 +260,8 @@ if __name__ == "__main__":
 
         print(n, end='\n\n')
     n += 1
-    
     '''
+
 
     test = {'ins(item)': insTest(lst_norm),
             'len()': lenTest(lst_norm),
@@ -272,9 +270,9 @@ if __name__ == "__main__":
             'ver(p)': verTest(lst_norm),
             'rem(item)': remTest(lst_norm, vlr),
             'limpar()': limparTest(lst_norm),
-            'vazia()': vaziaTest(lst_norm)}
-            #'order()': ordenarTest(lst_norm)}
-    # , 'binarySearch(item)': binarySearchTest(lst_norm, vlr)}
+            'vazia()': vaziaTest(lst_norm),
+            'order()': ordenarTest(lst_norm),
+            'binarySearch(item)': binarySearchTest(lst_norm, vlr)}
 
     for i in test:
         print(f'{i} --> {test[i]}')
@@ -303,10 +301,10 @@ if __name__ == "__main__":
             'rem(item)': remTest(lst_norm, vlr, 'cll'),
             'limpar()': limparTest(lst_norm, 'cll'),
             'vazia()': vaziaTest(lst_norm, 'cll'),
-            'order()': ordenarTest(lst_norm, 'cll')}
+            'order()': ordenarTest(lst_norm, vlr, 'cll')}
 
     for i in test:
         print(f'{i} --> {test[i]}')
 
-    cll = fromListToCll([1, 20, 4, 5])  # Todo erase this in case i forget
-    dll = fromListToDll([4, 3, 2, 1])  # Todo erase this in case i forget
+    cll = fromListToCll([3,2,1])  # Todo erase this in case i forget
+    dll = fromListToDll([6,5,4])  # Todo erase this in case i forget

@@ -63,7 +63,7 @@ def fromListToCll(lista_normal) -> CircularLinkedList:
 
 
 # test functions
-def insTest(lista_normal, linkedListType = 'dll'):
+def insTest(lista_normal, linkedListType='dll'):
     lista_comp = []
 
     if linkedListType == 'cll':
@@ -219,7 +219,7 @@ def vaziaTest(lista_normal, linkedListType='dll'):
     return (dll1.vazia() == (len(lst1) == 0)) and (dll2.vazia())
 
 
-def ordenarTest(lista_normal, linkedListType = 'dll'):
+def ordenarTest(lista_normal, linkedListType='dll'):
     if linkedListType == 'dll':
         cll1 = fromListToCll(lista_normal)
         cll2 = fromListToCll(lista_normal)
@@ -240,7 +240,7 @@ def ordenarTest(lista_normal, linkedListType = 'dll'):
     return fromllToList(dll1) == lista_normal == fromllToList(dll2)
 
 
-def binarySearchTest(lista_normal, item, linkedListType = 'dll'):
+def binarySearchTest(lista_normal, item, linkedListType='dll'):
     if linkedListType == 'cll':
         cll1 = fromListToCll(lista_normal)
         pos = 0
@@ -262,7 +262,7 @@ def binarySearchTest(lista_normal, item, linkedListType = 'dll'):
 
 if __name__ == "__main__":
     print('Doubly Linked List Tests', end='\n\n')
-'''  
+    '''  
     n = 1
     for lst_norm in [
         [1,2,3,4,5],
@@ -272,7 +272,7 @@ if __name__ == "__main__":
 
         print(n, end='\n\n')
     n += 1
-'''
+    '''
     test = {'ins(item)': insTest(lst_norm),
             'len()': lenTest(lst_norm),
             'mostrar()': mostrarTest(lst_norm),
@@ -316,6 +316,3 @@ if __name__ == "__main__":
 
     for i in test:
         print(f'{i} --> {test[i]}')
-
-    cll = fromListToCll([3, 2, 1])  # Todo erase this in case i forget
-    dll = fromListToDll([6, 5, 4])  # Todo erase this in case i forget

@@ -1,4 +1,3 @@
-# base classes of linked lists should not have remove and insert methods (and binary search)
 import warnings
 from typing import Literal, Tuple, List
 
@@ -187,7 +186,7 @@ class LinkedList:
         self.head = result[0]
         self.tail = result[1]
         self.size = result[2]
-        if isCircular:  # verificar se é preciso
+        if isCircular:
             self.tail.next = self.head
 
     def quickSort(self):

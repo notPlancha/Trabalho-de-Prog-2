@@ -76,5 +76,8 @@ class CircularLinkedList(LinkedList):  # noqa
 
 
 if __name__ == "__main__":
-    # tests TODO
-    pass
+    from Testes_ao_codigo import fromListToCll
+    cll = fromListToCll([10, 9, 8, 7, 6, 5, 4, 3, 2, 1])
+    print(cll)
+    cll.mergeSort()
+    print(cll)

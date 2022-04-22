@@ -221,9 +221,9 @@ def binarySearchTest(lista_normal, item):
     dll1 = fromListToDll(lista_normal)
     pass
 
-print('Doubly Linked List Tests', end='\n\n')
 
 if __name__ == "__main__":
+    print('Doubly Linked List Tests', end='\n\n')
     '''
     n = 1
     for lst_norm in [
@@ -281,5 +281,5 @@ if __name__ == "__main__":
 
 
 
-cll = fromListToCll([1,20,4,5])# Todo erase this in case i forget
-dll = fromListToDll([4,3,2,1]) # Todo erase this in case i forget
+    cll = fromListToCll([1,20,4,5])# Todo erase this in case i forget
+    dll = fromListToDll([4,3,2,1]) # Todo erase this in case i forget

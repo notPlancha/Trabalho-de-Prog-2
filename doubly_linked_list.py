@@ -38,16 +38,18 @@ class DoublyLinkedNode(LinkedNode):
             raise DoublyLinkedNode.NoPrev("Index out of range")
         DoublyLinkedNode.swap(self, self.prev)
 
-    def insertNext(self, value, listWarning = True):
-        if listWarning: warnings.warn("InsertNext should not be used for linkedList manipulation unless used with caution")
+    def insertNext(self, value, listWarning=True):
+        if listWarning: warnings.warn(
+            "InsertNext should not be used for linkedList manipulation unless used with caution")
         nod = DoublyLinkedNode(value, next=self.next, prev=self)
         if nod.next is not None:
             nod.next.prev = nod
         self.next = nod
         return nod
 
-    def insertPrev(self, value, listWarning = True):
-        if listWarning: warnings.warn("InsertNext should not be used for linkedList manipulation unless used with caution")
+    def insertPrev(self, value, listWarning=True):
+        if listWarning: warnings.warn(
+            "InsertNext should not be used for linkedList manipulation unless used with caution")
         nod = DoublyLinkedNode(value, next=self, prev=self.prev)
         if nod.prev is not None:
             nod.prev.next = nod
@@ -65,6 +67,7 @@ class DoublyLinkedNode(LinkedNode):
         C = self.next
         if A is not None: A.next = C
         if C is not None: C.prev = A
+
 
 class DoublyLinkedList(LinkedList):  # noqa
     def __getitem__(self, p):
@@ -142,7 +145,7 @@ class DoublyLinkedList(LinkedList):  # noqa
             return False
 
     def removeAll(self, value):
-        #removes all of value
+        # removes all of value
         while self.rem(value) is False:
             continue
         return
@@ -151,12 +154,12 @@ class DoublyLinkedList(LinkedList):  # noqa
         return self.removeFirst(value)
 
     def binarySearch(self, item, order=False) -> Tuple[DoublyLinkedNode | None, int]:  # TODO change to True default
-        #TODO test it ty
+        # TODO test it ty
         if order:
             self.ordenar()
         start = (self.head, 0)
-        end = (self.tail, self.size-1)
-        while end[0] != start[0] or end[0] is None or start[0] is None: #not sure of this line
+        end = (self.tail, self.size - 1)
+        while end[0] != start[0] or end[0] is None or start[0] is None:  # not sure of this line
             mid = self.findMiddle(start, end)
             if mid[0].value == item:
                 return mid
@@ -167,7 +170,7 @@ class DoublyLinkedList(LinkedList):  # noqa
         return None, -1
 
     def merge(self, node1, node2):
-        #TODO see if is used
+        # TODO see if is used
         if node1 == None:
             return node2
         if node2 == None:
@@ -183,8 +186,8 @@ class DoublyLinkedList(LinkedList):  # noqa
 
         return resultado
 
-    def mergeSortOld(self, start = None):
-        #TODO remove?
+    def mergeSortOld(self, start=None):
+        # TODO remove?
         warnings.warn("Depricated, use mergeSort instead", DeprecationWarning)
         if start is None:
             starts = self.head
@@ -204,12 +207,36 @@ class DoublyLinkedList(LinkedList):  # noqa
         return sortedList
 
     def mergeSort(self, **kwargs):
-        #kwargs just so it can pass the others, while still restricting them
-        #TODO see this func is needed
+        # kwargs just so it can pass the others, while still restricting them
+        # TODO see this func is needed
         return super().mergeSort(isCircular=False, isDoublyLinked=True)
 
     def ordenar(self, which: Literal['m', 'q', 'i', 'b'] = "m"):  # TODO mudar para o mais efetivo
         return super().ordenar(which)
 
-if __name__ == "__main__": #TODO remove this from final
-    print("Local tests")
+    @staticmethod
+    def sortedMerge(a, b, isDoublyLinked=False) -> Tuple[LinkedNode, LinkedNode, int]:
+        pointera = a.head
+        pointerb = b.head
+        retHead = currentNode = DoublyLinkedNode(0)
+        while True:
+            if pointera.value > pointerb.value:
+                pointera, pointerb = pointerb, pointera
+                a, b = b, a
+            currentNode = currentNode.insertNext(pointera.value, listWarning=False)
+            if pointera.next is None or pointera is a.tail:
+                for i in pointerb:
+                    currentNode = currentNode.insertNext(i.value, listWarning=False)
+                    if i is b.tail:
+                        break
+                return retHead.next, currentNode, a.size + b.size
+            else:
+                pointera = pointera.next
+
+
+if __name__ == "__main__":
+    from Testes_ao_codigo import fromListToDll
+
+    dll = fromListToDll([10, 9, 8, 7, 6, 5, 4, 3, 2, 1])
+    dll.mergeSort()
+    print(dll.tail.prev)

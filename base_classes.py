@@ -142,7 +142,7 @@ class LinkedList:
     def mergeSort(self, isCircular = False, isDoublyLinked = False):
         #TODO test e verifiar se é preciso os trues e falses
         if isCircular: #TODO verificar se é preciso
-            self.tail = None
+            self.tail.next = None
         if self.size == 1:
             return
         mid = self.findMiddle()

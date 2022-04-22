@@ -17,12 +17,15 @@ class LinkedNode:
         pass
 
     def __eq__(self, other):
-        if other is None: return False
-        elif isinstance(other, LinkedNode): return self.value == other.value
-        else: return self.value == other
+        if other is None:
+            return False
+        elif isinstance(other, LinkedNode):
+            return self.value == other.value
+        else:
+            return self.value == other
 
     def move_n_times_right(self, n):
-        current_node : LinkedNode = self
+        current_node: LinkedNode = self
         for i in range(n):
             if current_node.next is None:
                 raise LinkedNode.NoNext("Index out of range")
@@ -38,8 +41,9 @@ class LinkedNode:
         else:
             return f"{self.value} ->"
 
-    def insertNext(self, value, listWarning = True):
-        if listWarning: warnings.warn("InsertNext should not be used for linkedList manipulation unless used with caution")
+    def insertNext(self, value, listWarning=True):
+        if listWarning: warnings.warn(
+            "InsertNext should not be used for linkedList manipulation unless used with caution")
         self.next = LinkedNode(value, self.next)
         return self.next
 
@@ -48,6 +52,8 @@ class LinkedNode:
         while currentNode is not None:
             yield currentNode
             currentNode = currentNode.next
+
+
 class LinkedList:
     def __init__(self):
         self.head = None
@@ -108,23 +114,40 @@ class LinkedList:
         return ret
 
     # sort a linkedList
-    def ordenar(self, which: Literal['m', 'q', 'i', 'b'] = 'm'):#Todo chage default to most effective
+    def ordenar(self, which: Literal['m', 'q', 'i', 'b'] = 'm'):  # TODO por o mais eficiente
         if which == 'm':
             self.mergeSort()
-            return
         elif which == 'q':
-            return False
+            self.quickSort()
         elif which == 'i':
-            return False
+            self.insertionSort()
         elif which == 'b':
             self.bubbleSort()
-            return
         else:
             raise ValueError("Invalid argument")
 
+    def binarySearch(self, item, order=True) -> Tuple[LinkedNode | None, int]:
+        if self.size == 0:
+            return None, -1
+        if order:
+            self.ordenar()
+        start = (self.head, 0)
+        end = (self.tail, self.size - 1)
+        while end[0] != start[0] or end[0] is None or start[0] is None:  # not sure of this line
+            mid = self.findMiddle(start, end)
+            if mid[0].value == item:
+                return mid
+            elif mid[0].value < item:
+                start = (mid[0].next, mid[1] + 1)
+            else:
+                end = mid
+        if start[0] == item:
+            return start
+        else:
+            return None, -1
+
     @staticmethod
-    def sortedMerge(a,b) -> Tuple[LinkedNode, LinkedNode, int]:
-        #TODO test
+    def sortedMerge(a, b) -> Tuple[LinkedNode, LinkedNode, int]:
         pointera = a.head
         pointerb = b.head
         retHead = currentNode = LinkedNode(0)
@@ -141,11 +164,11 @@ class LinkedList:
                 return retHead.next, currentNode, a.size + b.size
             else:
                 pointera = pointera.next
-    def mergeSort(self, isCircular = False):
-        #TODO test e verifiar se é preciso os trues e falses
-        if isCircular: #TODO verificar se é preciso
+
+    def mergeSort(self, isCircular=False):
+        if isCircular:
             self.tail.next = None
-        if self.size == 1:
+        if self.size <= 1:
             return
         mid = self.findMiddle()
         a = type(self)()
@@ -164,7 +187,7 @@ class LinkedList:
         self.head = result[0]
         self.tail = result[1]
         self.size = result[2]
-        if isCircular:# verificar se é preciso
+        if isCircular:  # verificar se é preciso
             self.tail.next = self.head
 
     def quickSort(self):
@@ -174,6 +197,8 @@ class LinkedList:
         raise NotImplementedError("insertionSort not implemented on this list")
 
     def bubbleSort(self):
+        if self.size <= 1:
+            return
         is_sorted = False
         while not is_sorted:
             is_sorted = True
@@ -197,14 +222,13 @@ class LinkedList:
 
     def findMiddle(self, startPoint: Tuple[LinkedNode, int] = None,
                    endPoint: Tuple[LinkedNode, int] = None) -> Tuple[LinkedNode, int]:
-        # TODO test
 
         if startPoint is None: startPoint = (self.head, 0)
         if endPoint is None: endPoint = (self.tail, self.size - 1)
         count = endPoint[1] - startPoint[1]
-        return startPoint[0].move_n_times_right(count // 2), (count // 2) + startPoint[1]  # TODO check
+        return startPoint[0].move_n_times_right(count // 2), (count // 2) + startPoint[1]
 
-    def findMiddleNode(self, startNode = None):
+    def findMiddleNode(self, startNode=None):
         warnings.warn("Depricated, use findMiddle Instead")
         if len(self) == 0:
             return None

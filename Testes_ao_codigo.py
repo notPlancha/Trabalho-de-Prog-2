@@ -168,7 +168,7 @@ def verTest(lista_normal, linkedListType='dll'):
     return True
 
 
-def remTest(lista_normal, item, linkedListType = 'dll'):  # item tem que estar na lista
+def remTest(lista_normal, item, linkedListType='dll'):  # item tem que estar na lista
     if linkedListType == 'cll':
         cll1 = fromListToCll(lista_normal)
         try:
@@ -189,7 +189,6 @@ def remTest(lista_normal, item, linkedListType = 'dll'):  # item tem que estar n
     return dll1 == lista_normal
 
 
-
 def limparTest(lista_normal, linkedListType='dll'):
     if linkedListType == 'cll':
         cll1 = fromListToCll(lista_normal)
@@ -204,6 +203,7 @@ def limparTest(lista_normal, linkedListType='dll'):
 
     return lista_comp == []
 
+
 def vaziaTest(lista_normal, linkedListType='dll'):
     if linkedListType == 'cll':
         cll1 = fromListToCll(lista_normal)
@@ -217,7 +217,6 @@ def vaziaTest(lista_normal, linkedListType='dll'):
 
     dll2 = DoublyLinkedList()
     return (dll1.vazia() == (len(lst1) == 0)) and (dll2.vazia())
-
 
 
 def ordenarTest(lista_normal, linkedListType = 'dll'):
@@ -257,7 +256,6 @@ if __name__ == "__main__":
         print(n, end='\n\n')
     n += 1
     '''
-
 
     test = {'ins(item)': insTest(lst_norm),
             'len()': lenTest(lst_norm),
@@ -302,5 +300,5 @@ if __name__ == "__main__":
     for i in test:
         print(f'{i} --> {test[i]}')
 
-    cll = fromListToCll([3,2,1])  # Todo erase this in case i forget
-    dll = fromListToDll([6,5,4])  # Todo erase this in case i forget
+    cll = fromListToCll([3, 2, 1])  # Todo erase this in case i forget
+    dll = fromListToDll([6, 5, 4])  # Todo erase this in case i forget

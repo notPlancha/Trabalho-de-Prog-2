@@ -169,7 +169,17 @@ def verTest(lista_normal, linkedListType='dll'):
     return True
 
 
-def remTest(lista_normal, item):  # item tem que estar na lista
+def remTest(lista_normal, item, linkedListType='dll'):  # item tem que estar na lista
+    if linkedListType == 'cll':
+        cll1 = fromListToCll(lista_normal)
+        try:
+            lista_normal.remove(item)
+        except ValueError:
+            return cll1.rem(item) is False
+        cll1.rem(item)
+        cll1 = fromllToList(cll1)
+        return cll1 == lista_normal
+
     dll1 = fromListToDll(lista_normal)
     try:
         lista_normal.remove(item)
@@ -232,7 +242,6 @@ def ordenarTest(lista_normal, linkedListType='dll'):
 
 
 def binarySearchTest(lista_normal, item):
-    dll1 = fromListToDll(lista_normal)
     pass
 
 
@@ -248,7 +257,6 @@ if __name__ == "__main__":
 
         print(n, end='\n\n')
     n += 1
-    
     '''
 
     test = {'ins(item)': insTest(lst_norm),
@@ -259,8 +267,8 @@ if __name__ == "__main__":
             'rem(item)': remTest(lst_norm, vlr),
             'limpar()': limparTest(lst_norm),
             'vazia()': vaziaTest(lst_norm),
-            'order()': ordenarTest(lst_norm)}
-    # , 'binarySearch(item)': binarySearchTest(lst_norm, vlr)}
+            'order()': ordenarTest(lst_norm),
+            'binarySearch(item)': binarySearchTest(lst_norm, vlr)}
 
     for i in test:
         print(f'{i} --> {test[i]}')
@@ -285,12 +293,14 @@ if __name__ == "__main__":
             'len()': lenTest(lst_norm, 'cll'),
             'mostrar()': mostrarTest(lst_norm, 'cll'),
             'existe(item)': existeTest(lst_norm, 'cll'),
+            'ver(p)': verTest(lst_norm, 'cll'),
+            'rem(item)': remTest(lst_norm, vlr, 'cll'),
             'limpar()': limparTest(lst_norm, 'cll'),
             'vazia()': vaziaTest(lst_norm, 'cll'),
-            'order()': ordenarTest(lst_norm, 'cll')}
+            'order()': ordenarTest(lst_norm, vlr, 'cll')}
 
     for i in test:
         print(f'{i} --> {test[i]}')
 
-    cll = fromListToCll([1, 20, 4, 5])  # Todo erase this in case i forget
-    dll = fromListToDll([4, 3, 2, 1])  # Todo erase this in case i forget
+    cll = fromListToCll([3, 2, 1])  # Todo erase this in case i forget
+    dll = fromListToDll([6, 5, 4])  # Todo erase this in case i forget
